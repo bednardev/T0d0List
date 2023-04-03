@@ -1,4 +1,4 @@
-package com;
+package com.repositories;
 
 public class Task {
     Long id;

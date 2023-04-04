@@ -1,4 +1,4 @@
-package com.models;
+package com.todolist.models;
 
 public class Task {
     private Long id;

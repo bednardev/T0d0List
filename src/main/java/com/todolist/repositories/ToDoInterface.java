@@ -1,12 +1,12 @@
-package com.repositories;
+package com.todolist.repositories;
 
-import com.models.Task;
+import com.todolist.models.Task;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface ToDoInterface {
-    public Task saveTask();
+    public Task saveTask(Task task);
     public List<Task> getTasks();
 }

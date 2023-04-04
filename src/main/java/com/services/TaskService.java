@@ -1,24 +1,25 @@
 package com.services;
 
-import com.repositories.Task;
-import org.springframework.stereotype.Component;
+import com.models.Task;
+import com.repositories.impl.TaskRepository;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-@Component
+@Service
 public class TaskService {
-    public static Map<Long, Task> tasks = new HashMap<>();
-    private static Long TASK_ID = 0L;
-    public Task saveTask(Task task) {
-        Task.setId(TASK_ID);
-        tasks.put(TASK_ID, task);
-        TASK_ID += 1;
+
+    private final TaskRepository taskRepository;
+
+    public TaskService(TaskRepository taskRepository){
+        this.taskRepository = taskRepository;
     }
 
-    public static List<Task> getTasks() {
-        return new LinkedList<>(tasks.values());
+    public Task saveTask{
+        this.taskRepository.saveTask(Task);
+    }
 
+    public List<Task> getTasks(){
+        this.taskRepository.getTasks();
+    }
 }

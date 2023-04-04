@@ -1,7 +1,7 @@
-package com.repositories;
+package com.models;
 
 public class Task {
-    Long id;
+    private Long id;
     private String title;
     private String description;
 
@@ -10,12 +10,17 @@ public class Task {
         this.description = description;
     }
 
-    public static void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
+    public Long getId(){
+        return id;
+    }
+
     public String toString() {
-        return  " title: " + title +
+        return  " id: " + id +
+                " title: " + title +
                 " description: " + description;
     }
 

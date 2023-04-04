@@ -1,6 +1,6 @@
 package com.controllers;
 
-import com.repositories.Task;
+import com.models.Task;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

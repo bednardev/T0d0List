@@ -4,14 +4,14 @@ public class Task {
     private Long id;
     private String title;
     private String description;
-    private String color;
+    private Enum color;
 
-    public Task(String title,String description,String color) {
+    public Task(String title,String description,Enum color) {
         this.title = title;
         this.description = description;
         this.color = color;
     }
-    public String getColor() { return color; }
+    public Enum getColor() { return color; }
     public String getTitle(){
         return title;
     }

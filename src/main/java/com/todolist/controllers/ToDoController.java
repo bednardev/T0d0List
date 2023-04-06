@@ -18,16 +18,13 @@ public class ToDoController {
         this.taskService = taskService;
     }
 
-    @GetMapping(value = "/tasks")
-        public List<Task> getTasks () {
-            return taskService.getTasks();
-        }
-
-
     @PostMapping(value = "/tasks")
-        public Task saveTask (@RequestBody Task task){
-            return taskService.saveTask(task);
-        }
+    public Task saveTask(@RequestBody Task task) {
+        return taskService.saveTask(task);
+   }
 
-
+    @GetMapping(value = "/tasks")
+      public List<Task> getTasks() {
+        return taskService.getTasks();
+    }
 }

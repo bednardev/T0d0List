@@ -9,6 +9,11 @@ public class Task {
         this.title = title;
         this.description = description;
     }
+    public String getTitle(){
+        return title;
+    }
+
+    public String getDescription(){ return description; }
 
     public void setId(Long id) {
         this.id = id;

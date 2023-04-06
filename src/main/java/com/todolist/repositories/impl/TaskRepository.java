@@ -13,7 +13,7 @@ import java.util.Map;
 @Repository
 public class TaskRepository implements ToDoInterface {
 
-    private Map<Long, Task> tasks = new HashMap<>();
+    public Map<Long, Task> tasks = new HashMap<>();
 
     private Long TASK_ID = 0L;
 

@@ -1,7 +1,7 @@
 package com.todolist.services;
 
 import com.todolist.models.Task;
-import com.todolist.repositories.impl.TaskRepository;
+import com.todolist.repositories.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,16 +9,16 @@ import java.util.List;
 @Service
 public class TaskService {
 
-    private final TaskRepository taskRepository;
+    private final TaskRepositoryImpl taskRepository;
 
-    public TaskService(TaskRepository taskRepository){
+    public TaskService(TaskRepositoryImpl taskRepository){
         this.taskRepository = taskRepository;
     }
     public Task saveTask(Task task){
       return taskRepository.saveTask(task);
-
     }
 
-    public List<Task> getTasks(){return taskRepository.getTasks();
+    public List<Task> getTasks(){
+        return taskRepository.getTasks();
     }
 }

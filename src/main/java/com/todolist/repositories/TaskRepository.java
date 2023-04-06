@@ -4,7 +4,7 @@ import com.todolist.models.Task;
 
 import java.util.List;
 
-public interface ToDoInterface {
+public interface TaskRepository {
     Task saveTask(Task task);
     List<Task> getTasks();
 }

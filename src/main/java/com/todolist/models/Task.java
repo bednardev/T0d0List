@@ -4,11 +4,6 @@ public class Task {
     private Long id;
     private String title;
     private String description;
-    public enum Color {
-        red,
-        blue,
-        grey
-    }
     private Color color;
 
     public Task(String title,String description,Color color) {

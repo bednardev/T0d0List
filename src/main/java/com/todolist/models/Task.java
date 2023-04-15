@@ -5,16 +5,22 @@ public class Task {
     private String title;
     private String description;
     private Color color;
+    private String createdAt;
+    private String
+            lastUpdatedAt;
 
     public Task(String title,String description,Color color) {
         this.title = title;
         this.description = description;
         this.color = color;
     }
+    public void setCreatedAt(String createdAt){ this.createdAt = createdAt; }
+    public String getCreatedAt() { return createdAt; }
+
+    public void setLastUpdatedAt(String lastUpdatedAt) {this.lastUpdatedAt = lastUpdatedAt; }
+    public String getLastUpdatedAt() { return lastUpdatedAt; }
     public Color getColor() { return color; }
-    public String getTitle(){
-        return title;
-    }
+    public String getTitle(){ return title; }
     public String getDescription() {
         return description;
     }

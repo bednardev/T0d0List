@@ -1,6 +1,7 @@
 package com.todolist.controllers;
 
 import com.todolist.models.Task;
+import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ public class ToDoController {
     }
 
     @PostMapping
-    public Task saveTask(@RequestBody Task task) {
-        return taskService.saveTask(task);
+    public Task saveTaskDto(@RequestBody TaskDto taskDto) {
+        return taskService.saveTaskDto(taskDto);
    }
 
     @GetMapping

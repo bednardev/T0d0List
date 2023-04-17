@@ -1,41 +1,29 @@
 package com.todolist.services;
 
-import com.todolist.models.AuditDates;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.repositories.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
 
     private final TaskRepositoryImpl taskRepository;
-    private final TaskDto taskDto;
-
-    private Map<Long, TaskDto> tasksDto = new HashMap<>();
-    private Map<Long, Task> tasks = new HashMap<>();
-    private Long TASK_ID = 0L;
-
-    public TaskService(TaskRepositoryImpl taskRepository, TaskDto taskDto){
+    public TaskService(TaskRepositoryImpl taskRepository){
         this.taskRepository = taskRepository;
-        this.taskDto = taskDto;
     }
-    public Task saveTask(Task task) {
-        return taskRepository.saveTask(task);
+    Long id = 0l;
+    public TaskDto saveTask(TaskDto taskDto) {
+        Task task = new Task(taskDto.getTitle(), taskDto.getDescription(), taskDto.getColor());
+        taskRepository.saveTask(task);
+        TaskDto taskDto1 = new TaskDto(task.getTitle(), task.getDescription(), task.getColor());
+        taskDto1.setId(id);
+        id++;
+        return taskDto1;
     }
-    public TaskDto saveTaskDto(TaskDto taskDto) {
-        tasksDto.values() = tasks.values().stream().map(task -> taskDto).collect(Collectors.toList());
-        return taskDto;
-    }
-    public List<Task> getTasks(){
-        return taskRepository.getTasks();
-    }
+    public List<Task> getTasks(){ return taskRepository.getTasks(); }
 }
 
 

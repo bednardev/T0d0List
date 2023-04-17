@@ -15,10 +15,9 @@ public class ToDoController {
     public ToDoController(TaskService taskService) {
         this.taskService = taskService;
     }
-
     @PostMapping
-    public Task saveTaskDto(@RequestBody TaskDto taskDto) {
-        return taskService.saveTaskDto(taskDto);
+    public TaskDto saveTask(@RequestBody TaskDto taskDto) {
+        return taskService.saveTask(taskDto);
    }
 
     @GetMapping

@@ -1,11 +1,8 @@
 package com.todolist.models;
 
-import org.springframework.stereotype.Component;
+public class TaskDto {
 
-@Component
-public class TaskDto{
-    private Long id;
-    private String title;
+    private Long id;    private String title;
     private String description;
     private Color color;
 

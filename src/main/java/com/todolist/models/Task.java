@@ -1,18 +1,29 @@
 package com.todolist.models;
 
-public class Task {
+import java.time.Instant;
+
+public class Task implements Auditable{
     private Long id;
     private String title;
     private String description;
     private Color color;
-    private AuditDates auditDates;
-    public Task(String title,String description,Color color) {
+    private Instant createdAt;
+    private Instant lastUpdatedAt;
+    public Task(String title, String description,Color color) {
         this.title = title;
         this.description = description;
         this.color = color;
     }
-    public AuditDates getAuditDates() { return auditDates; }
-    public void setAuditDates(AuditDates auditDates) {this.auditDates = auditDates; }
+    @Override
+    public Instant getCreatedAt(){
+        return Instant.now();
+    }
+    public void setCreatedAt(Instant createdAt){ this.createdAt = createdAt; }
+    @Override
+    public Instant getLastUpdatedAt(){
+        return Instant.now();
+    }
+    public void setLastUpdatedAt(Instant lastUpdatedAt) { this.lastUpdatedAt = lastUpdatedAt; }
     public Color getColor() { return color; }
     public String getTitle(){ return title; }
     public String getDescription() {

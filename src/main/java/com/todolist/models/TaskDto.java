@@ -2,7 +2,8 @@ package com.todolist.models;
 
 public class TaskDto {
 
-    private Long id;    private String title;
+    private Long id=0l;
+    private String title;
     private String description;
     private Color color;
 

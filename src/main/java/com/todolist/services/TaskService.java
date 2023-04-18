@@ -14,14 +14,11 @@ public class TaskService {
     public TaskService(TaskRepositoryImpl taskRepository){
         this.taskRepository = taskRepository;
     }
-    Long id = 0l;
     public TaskDto saveTask(TaskDto taskDto) {
-        Task task = new Task(taskDto.getTitle(), taskDto.getDescription(), taskDto.getColor());
-        taskRepository.saveTask(task);
-        TaskDto taskDto1 = new TaskDto(task.getTitle(), task.getDescription(), task.getColor());
-        taskDto1.setId(id);
-        id++;
-        return taskDto1;
+        Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), taskDto.getColor());
+        Task task = taskRepository.saveTask(taskToSave);
+        taskDto.setId(task.getId());
+        return new TaskDto(task.getTitle(), task.getDescription(), task.getColor());
     }
     public List<Task> getTasks(){ return taskRepository.getTasks(); }
 }

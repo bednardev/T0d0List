@@ -19,15 +19,10 @@ public class ToDoController {
     @PostMapping
     public Task saveTask(@RequestBody Task task) {
         return taskService.saveTask(task);
-   }
+    }
 
     @GetMapping
-        public List<Task> getTasks() {
-            return taskService.getTasks();
-        }
-
-    @GetMapping(value = "{color}")
-    public List<Task> getTasksByColor(@PathVariable Color color) {
-        return taskService.getTasksByColor(color);
+    public List<Task> getTasks(@RequestParam(value="color", required=false) Color color) {
+        return taskService.getTasks(color);
     }
-    }
+}

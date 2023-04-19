@@ -16,7 +16,7 @@ public class Task implements Auditable{
     }
     @Override
     public Instant getCreatedAt(){
-        return lastUpdatedAt;
+        return createdAt;
     }
     public void setCreatedAt(Instant createdAt){ this.createdAt = createdAt; }
     @Override

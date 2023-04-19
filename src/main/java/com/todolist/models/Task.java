@@ -16,12 +16,12 @@ public class Task implements Auditable{
     }
     @Override
     public Instant getCreatedAt(){
-        return Instant.now();
+        return lastUpdatedAt;
     }
     public void setCreatedAt(Instant createdAt){ this.createdAt = createdAt; }
     @Override
     public Instant getLastUpdatedAt(){
-        return Instant.now();
+        return lastUpdatedAt;
     }
     public void setLastUpdatedAt(Instant lastUpdatedAt) { this.lastUpdatedAt = lastUpdatedAt; }
     public Color getColor() { return color; }

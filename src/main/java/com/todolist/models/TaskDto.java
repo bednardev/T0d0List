@@ -2,12 +2,13 @@ package com.todolist.models;
 
 public class TaskDto {
 
-    private Long id=0l;
+    private Long id;
     private String title;
     private String description;
     private Color color;
 
-    public TaskDto(String title,String description,Color color) {
+    public TaskDto(Long id, String title,String description,Color color) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;

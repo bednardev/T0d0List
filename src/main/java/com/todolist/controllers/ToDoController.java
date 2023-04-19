@@ -23,6 +23,9 @@ public class ToDoController {
 
     @GetMapping
     public List<Task> getTasks(@RequestParam(value="color", required=false) Color color) {
-        return taskService.getTasks(color);
+        if (color == null) {
+            return taskService.getTasks();
+        }
+        return taskService.getTasksByColor(color);
     }
 }

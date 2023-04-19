@@ -20,9 +20,14 @@ public class TaskService {
       return taskRepository.saveTask(task);
     }
 
-    public List<Task> getTasks(Color color){
+    public List<Task> getTasksByColor(Color color){
         return taskRepository.getTasks().stream().filter(c -> c.getColor().equals(color)).collect(Collectors.toList());
     }
+
+    public List<Task> getTasks(){
+        return taskRepository.getTasks();
+    }
+
     }
 
 

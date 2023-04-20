@@ -1,5 +1,6 @@
 package com.todolist.controllers;
 
+import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;

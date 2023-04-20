@@ -1,11 +1,14 @@
 package com.todolist.services;
 
+import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.repositories.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TaskService {
@@ -19,7 +22,17 @@ public class TaskService {
         Task task = taskRepository.saveTask(taskToSave);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColor());
     }
-    public List<Task> getTasks(){ return taskRepository.getTasks(); }
+    public List<Task> getTasks(Color color, String title) {
+        Stream<Task> taskStream = taskRepository.getTasks().stream();
+        if (color != null) {
+            if (title != null) {
+                return taskStream.filter(c -> c.getTitle().contains("Roman")).
+                        filter(c -> c.getColor().equals(color)).collect(Collectors.toList());
+            }
+            return taskStream.filter(c -> c.getColor().equals(color)).collect(Collectors.toList());
+        }
+        return taskStream.collect(Collectors.toList());
+    }
 }
 
 

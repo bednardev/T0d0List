@@ -2,6 +2,7 @@ package com.todolist.controllers;
 
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
+import com.todolist.models.Color;
 import com.todolist.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +23,8 @@ public class ToDoController {
 
     @GetMapping
     public List<Task> getTasks(@RequestParam(value="color", required=false) Color color) {
-        if (color == null) {
-            return taskService.getTasks();
+        {
+            return taskService.getTasks(color);
         }
-        return taskService.getTasksByColor(color);
     }
 }

@@ -25,7 +25,7 @@ public class TaskService {
     public List<Task> getTasks(Color color){
         Stream <Task> taskStream = taskRepository.getTasks().stream();
         if (color != null){
-            return taskStream.filter(c -> c.getColor().equals(color)).collect(Collectors.toList());
+            taskStream = taskStream.filter(c -> c.getColor().equals(color));
         }
         return taskStream.collect(Collectors.toList());
     }

@@ -26,10 +26,9 @@ public class TaskService {
         Stream<Task> taskStream = taskRepository.getTasks().stream();
         if (color != null) {
             if (title != null) {
-                return taskStream.filter(c -> c.getTitle().contains("Roman")).
-                        filter(c -> c.getColor().equals(color)).collect(Collectors.toList());
+                taskStream = taskStream.filter(c -> c.getTitle().contains("Roman"));
             }
-            return taskStream.filter(c -> c.getColor().equals(color)).collect(Collectors.toList());
+            taskStream = taskStream.filter(c -> c.getColor().equals(color));
         }
         return taskStream.collect(Collectors.toList());
     }

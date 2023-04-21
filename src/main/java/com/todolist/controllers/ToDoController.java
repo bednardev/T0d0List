@@ -16,14 +16,15 @@ public class ToDoController {
     public ToDoController(TaskService taskService) {
         this.taskService = taskService;
     }
+
     @PostMapping
     public TaskDto saveTask(@RequestBody TaskDto taskDto) {
         return taskService.saveTask(taskDto);
-   }
-@GetMapping
-public List<Task> getTasks(@RequestParam(value="color", required=false) Color color,
-@RequestParam(value="title", required=false) String title)
-        {
+    }
+
+    @GetMapping
+    public List<Task> getTasks(@RequestParam(value = "color", required = false) Color color,
+                               @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
-        }
-        }
+    }
+}

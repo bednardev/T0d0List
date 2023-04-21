@@ -14,21 +14,27 @@ import java.util.stream.Stream;
 public class TaskService {
 
     private final TaskRepositoryImpl taskRepository;
-    public TaskService(TaskRepositoryImpl taskRepository){
+
+    public TaskService(TaskRepositoryImpl taskRepository) {
         this.taskRepository = taskRepository;
     }
+
     public TaskDto saveTask(TaskDto taskDto) {
         Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), taskDto.getColor());
         Task task = taskRepository.saveTask(taskToSave);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColor());
     }
+
     public List<Task> getTasks(Color color, String title) {
         Stream<Task> taskStream = taskRepository.getTasks().stream();
         if (color != null) {
             if (title != null) {
-                taskStream = taskStream.filter(c -> c.getTitle().contains("Roman"));
+                taskStream = taskStream.filter(c -> c.getTitle().contains("title"));
             }
             taskStream = taskStream.filter(c -> c.getColor().equals(color));
+        }
+        else if (title != null){
+            taskStream = taskStream.filter(c -> c.getTitle().contains("title"));
         }
         return taskStream.collect(Collectors.toList());
     }

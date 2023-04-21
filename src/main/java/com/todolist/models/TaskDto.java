@@ -7,23 +7,30 @@ public class TaskDto {
     private String description;
     private Color color;
 
-    public TaskDto(Long id, String title,String description,Color color) {
+    public TaskDto(Long id, String title, String description, Color color) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
     }
-    public Color getColor() { return color; }
-    public String getTitle(){
+
+    public Color getColor() {
+        return color;
+    }
+
+    public String getTitle() {
         return title;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getId(){
+
+    public Long getId() {
         return id;
     }
 }

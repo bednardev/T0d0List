@@ -15,6 +15,7 @@ import java.util.Map;
 public class TaskRepositoryImpl implements TaskRepository {
     private Map<Long, Task> tasks = new HashMap<>();
     private Long TASK_ID = 0L;
+
     @Override
     public Task saveTask(Task task) {
         task.setId(TASK_ID);
@@ -24,6 +25,7 @@ public class TaskRepositoryImpl implements TaskRepository {
         TASK_ID += 1;
         return task;
     }
+
     @Override
     public List<Task> getTasks() {
         return new LinkedList<>(tasks.values());

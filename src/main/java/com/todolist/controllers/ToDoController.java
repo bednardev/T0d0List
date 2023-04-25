@@ -1,8 +1,8 @@
 package com.todolist.controllers;
 
+import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
-import com.todolist.models.Color;
 import com.todolist.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +16,15 @@ public class ToDoController {
     public ToDoController(TaskService taskService) {
         this.taskService = taskService;
     }
+
     @PostMapping
     public TaskDto saveTask(@RequestBody TaskDto taskDto) {
         return taskService.saveTask(taskDto);
-   }
+    }
 
     @GetMapping
-    public List<Task> getTasks(@RequestParam(value="color", required=false) Color color) {
-        {
-            return taskService.getTasks(color);
-        }
+    public List<Task> getTasks(@RequestParam(value = "color", required = false) Color color,
+                               @RequestParam(value = "title", required = false) String title) {
+        return taskService.getTasks(color, title);
     }
 }

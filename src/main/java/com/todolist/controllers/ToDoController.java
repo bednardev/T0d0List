@@ -4,10 +4,10 @@ import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RequestMapping("/tasks")
 @RestController
 public class ToDoController {
@@ -18,7 +18,7 @@ public class ToDoController {
     }
 
     @PostMapping
-    public TaskDto saveTask(@RequestBody TaskDto taskDto) {
+    public TaskDto saveTask(@RequestBody @Valid TaskDto taskDto) {
         return taskService.saveTask(taskDto);
     }
 

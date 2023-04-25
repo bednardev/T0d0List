@@ -1,10 +1,15 @@
 package com.todolist.models;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class TaskDto {
 
     private Long id;
+    @NotEmpty(message="field could not be empty")
     private String title;
     private String description;
+    @NotNull
     private Color color;
 
     public TaskDto(Long id, String title, String description, Color color) {

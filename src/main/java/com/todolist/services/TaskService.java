@@ -28,12 +28,9 @@ public class TaskService {
     public List<Task> getTasks(Color color, String title) {
         Stream<Task> taskStream = taskRepository.getTasks().stream();
         if (color != null) {
-            if (title != null) {
-                taskStream = taskStream.filter(c -> c.getTitle().contains(title));
-            }
             taskStream = taskStream.filter(c -> c.getColor().equals(color));
         }
-        else if (title != null){
+        if (title != null) {
             taskStream = taskStream.filter(c -> c.getTitle().contains(title));
         }
         return taskStream.collect(Collectors.toList());

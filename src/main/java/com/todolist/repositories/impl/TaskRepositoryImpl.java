@@ -31,11 +31,4 @@ public class TaskRepositoryImpl implements TaskRepository {
         return new LinkedList<>(tasks.values());
     }
 
-    @Override
-    public Task updateTask(Task task){
-        long Id = task.getId();
-        tasks.put(task.getId(),task);
-      return task;
-    }
-
 }

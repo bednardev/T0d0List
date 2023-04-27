@@ -35,12 +35,5 @@ public class TaskService {
         }
         return taskStream.collect(Collectors.toList());
     }
-
-    public TaskDto updateTask(TaskDto taskDto) {
-        TaskDto taskToUpdate = new TaskDto(taskDto.getId(), taskDto.getTitle(), taskDto.getDescription(), taskDto.getColor());
-        TaskDto taskDto = taskRepository.updateTask(taskToUpdate);
-        return new TaskDto(task.getId(),task.getTitle(),task.getDescription(),task.getColor());
-    }
-
 }
 

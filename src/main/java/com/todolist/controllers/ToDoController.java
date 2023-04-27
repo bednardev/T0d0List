@@ -27,12 +27,4 @@ public class ToDoController {
                                @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
     }
-
-    @PostMapping("/updatetask")
-    public TaskDto updateTask(@RequestBody TaskDto taskDto){
-return taskService.updateTask(taskDto);
-    }
-
 }
-
-

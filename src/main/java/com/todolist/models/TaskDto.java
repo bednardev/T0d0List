@@ -1,20 +1,24 @@
 package com.todolist.models;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class TaskDto {
 
     private Long id;
+    @NotEmpty()
     private String title;
     private String description;
-    private Color color;
+    @NotEmpty()
+    private String color;
 
-    public TaskDto(Long id, String title, String description, Color color) {
+    public TaskDto(Long id, String title, String description, String color) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 

@@ -4,9 +4,16 @@ import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/tasks")
 @RestController
@@ -18,7 +25,7 @@ public class ToDoController {
     }
 
     @PostMapping
-    public TaskDto saveTask(@RequestBody TaskDto taskDto) {
+    public TaskDto saveTask(@RequestBody @Valid TaskDto taskDto) {
         return taskService.saveTask(taskDto);
     }
 
@@ -26,5 +33,22 @@ public class ToDoController {
     public List<Task> getTasks(@RequestParam(value = "color", required = false) Color color,
                                @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
+    }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("status", "400", "errors", prepareMapFromValidationErrors(ex)));
+    }
+
+    private String prepareMapFromValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errorMap.put(fieldName, errorMessage);
+        });
+        return errorMap.toString();
     }
 }

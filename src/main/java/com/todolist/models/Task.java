@@ -61,4 +61,10 @@ public class Task implements Auditable {
                 " color: " + color;
     }
 
+    public String getColorAsName() {
+        if(color != null) {
+            return color.name();
+        }
+        return "UNDEFINED";
+    }
 }

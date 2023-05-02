@@ -1,13 +1,16 @@
 package com.todolist.models;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.ValueOfEnum;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
+
+@Validated
 public class TaskDto {
     private Long id;
     @NotEmpty(message="Error: field could not be empty")
     private String title;
     private String description;
-    @ValueOfEnum(Color.class, message = "Error: color field has incorrect value")
+    @NotNull(message = "wrong color value")
     private Color color;
 
     public TaskDto(Long id, String title, String description, Color color) {

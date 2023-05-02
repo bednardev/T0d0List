@@ -18,7 +18,7 @@ public class ToDoController {
     }
 
     @PostMapping
-    public TaskDto saveTask(@RequestBody @Valid TaskDto taskDto) {
+    public TaskDto saveTask(@Valid @RequestBody TaskDto taskDto) {
         return taskService.saveTask(taskDto);
     }
 

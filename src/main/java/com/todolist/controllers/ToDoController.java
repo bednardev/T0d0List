@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RequestMapping("/tasks")
 @RestController
@@ -37,19 +36,15 @@ public class ToDoController {
 
 @PatchMapping("/tasks/{id}")
 @ResponseStatus(value = HttpStatus.NO_CONTENT)
-public void patchTask(@RequestBody Map<String, Task> updates, @PathVariable Long id){
-        Optional<Task> taskToPatch = taskService.getTaskById(id);
+public void patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id){
+        Task taskToPatch = taskService.getTaskById(id);
         if (updates.containsKey("title")){
             taskToPatch.setTitle(updates.get("title"));
-        }
-        if (updates.containsKey("color")){
-            taskToPatch.setColor(updates.get("color"));
         }
         if (updates.containsKey("description")){
             taskToPatch.setDescription(updates.get("description"));
         }
 }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

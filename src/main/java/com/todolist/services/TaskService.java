@@ -35,5 +35,12 @@ public class TaskService {
         }
         return taskStream.collect(Collectors.toList());
     }
+
+    public Task getTaskById(Long id) {
+        return taskRepository.getTasks().stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    }
 }
 

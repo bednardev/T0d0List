@@ -4,11 +4,10 @@ import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.repositories.impl.TaskRepositoryImpl;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,11 +37,10 @@ public class TaskService {
         return taskStream.collect(Collectors.toList());
     }
 
-    public Task getTaskById(Long id) {
+    public Optional<Task> getTaskById(Long id) {
         return taskRepository.getTasks().stream()
                 .filter(t -> t.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+                .findFirst();
     }
 }
 

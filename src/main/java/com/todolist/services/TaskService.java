@@ -7,6 +7,7 @@ import com.todolist.repositories.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,6 +35,12 @@ public class TaskService {
             taskStream = taskStream.filter(c -> c.getTitle().contains(title));
         }
         return taskStream.collect(Collectors.toList());
+    }
+
+    public Optional<Task> getTaskById(Long id) {
+        return taskRepository.getTasks().stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst();
     }
 }
 

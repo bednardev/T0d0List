@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,21 @@ public class ToDoController {
         return taskService.getTasks(color, title);
     }
 
+    @PatchMapping("{id}")
+    public Task patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
+        Task taskToPatch = taskService.getTaskById(id).
+                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        if (updates.containsKey("title")) {
+            taskToPatch.setTitle(updates.get("title"));
+        }
+        if (updates.containsKey("description")) {
+            taskToPatch.setDescription(updates.get("description"));
+        }
+        if (updates.containsKey("color")) {
+            taskToPatch.setColorAsName(updates.get("color"));
+        }
+        return taskToPatch;
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {

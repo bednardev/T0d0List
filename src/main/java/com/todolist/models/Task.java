@@ -42,8 +42,16 @@ public class Task implements Auditable {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setId(Long id) {
@@ -62,9 +70,14 @@ public class Task implements Auditable {
     }
 
     public String getColorAsName() {
-        if(color != null) {
+        if (color != null) {
             return color.name();
         }
         return "UNDEFINED";
+    }
+
+    public void setColorAsName(String colorAsName) {
+        Color color = Color.valueOf(colorAsName);
+        this.color = color;
     }
 }

@@ -33,10 +33,7 @@ public class Task implements Auditable {
     public void setLastUpdatedAt(Instant lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
-
-    public Color getColor() {
-        return color;
-    }
+    public Color getColor() { return color; }
     public String getTitle() {
         return title;
     }
@@ -69,4 +66,7 @@ public class Task implements Auditable {
         }
         return "UNDEFINED";
     }
+    public void setColorAsName(String colorAsName) {
+        Color color = Color.valueOf(colorAsName);
+        this.color = color ;}
 }

@@ -33,10 +33,8 @@ public class ToDoController {
                                @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
     }
-
-@PatchMapping("/tasks/{id}")
-@ResponseStatus(value = HttpStatus.NO_CONTENT)
-public void patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id){
+@PatchMapping("{id}")
+public Task patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id){
         Task taskToPatch = taskService.getTaskById(id);
         if (updates.containsKey("title")){
             taskToPatch.setTitle(updates.get("title"));
@@ -44,6 +42,10 @@ public void patchTask(@RequestBody Map<String, String> updates, @PathVariable Lo
         if (updates.containsKey("description")){
             taskToPatch.setDescription(updates.get("description"));
         }
+    if (updates.containsKey("color")){
+        taskToPatch.setColorAsName(updates.get("color"));
+    }
+        return taskToPatch;
 }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {

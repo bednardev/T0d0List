@@ -51,6 +51,15 @@ public class ToDoController {
         }
         return taskToPatch;
     }
+    @PutMapping("{id}")
+    public Task updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
+        Task taskToUpdate = taskService.getTaskById(id).
+                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        taskToUpdate.setTitle(taskDtoToUpdate.getTitle());
+        taskToUpdate.setDescription(taskDtoToUpdate.getDescription());
+        taskToUpdate.setColorAsName(taskDtoToUpdate.getColor());
+        return taskToUpdate;
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {

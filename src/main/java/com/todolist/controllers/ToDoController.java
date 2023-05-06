@@ -51,9 +51,9 @@ public class ToDoController {
         }
         return taskToPatch;
     }
-    @PutMapping("{id}")
-    public Task updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
-        Task taskToUpdate = taskService.getTaskById(id).
+    @PutMapping
+    public Task updateTask(@RequestBody TaskDto taskDtoToUpdate) {
+        Task taskToUpdate = taskService.getTaskById(taskDtoToUpdate.getId()).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         taskToUpdate.setTitle(taskDtoToUpdate.getTitle());
         taskToUpdate.setDescription(taskDtoToUpdate.getDescription());

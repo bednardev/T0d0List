@@ -37,6 +37,10 @@ public class Task implements Auditable {
     public Color getColor() {
         return color;
     }
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
 
     public String getTitle() {
         return title;

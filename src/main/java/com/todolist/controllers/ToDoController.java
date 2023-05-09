@@ -43,10 +43,10 @@ public class ToDoController {
         return taskService.patchTask(updates, taskToPatch);
     }
     @PutMapping("{id}")
-    public Task updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
-        Task taskToUpdate = taskService.getTaskById(taskDtoToUpdate.getId()).
+    public Task updateTask(@RequestBody Task task, @PathVariable Long id) {
+        Task taskToUpdate = taskService.getTaskById(id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        return taskToUpdate;
+        return taskService.updateTask(taskToUpdate);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

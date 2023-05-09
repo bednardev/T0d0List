@@ -10,5 +10,5 @@ public interface TaskRepository {
 
     List<Task> getTasks();
     Task patchTask(Map<String, String> updates, Task taskToPatch);
-    Task updateTask(Task taskToUpdate);
+    Task updateTask(Task task);
 }

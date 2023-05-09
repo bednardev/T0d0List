@@ -46,7 +46,7 @@ public class ToDoController {
     public Task updateTask(@RequestBody Task task, @PathVariable Long id) {
         Task taskToUpdate = taskService.getTaskById(id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        return taskService.updateTask(taskToUpdate);
+        return taskService.updateTask(task, taskToUpdate);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

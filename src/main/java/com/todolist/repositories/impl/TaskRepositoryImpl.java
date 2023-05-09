@@ -45,8 +45,10 @@ public class TaskRepositoryImpl implements TaskRepository {
         return taskToPatch;
     }
     @Override
-    public Task updateTask(Task task){
-        Task taskToUpdate = new Task(task.getTitle(),task.getDescription(),task.getColor());
+    public Task updateTask(Task task, Task taskToUpdate){
+        taskToUpdate.setTitle(task.getTitle());
+        taskToUpdate.setDescription(task.getDescription());
+        taskToUpdate.setColor(task.getColor());
         return taskToUpdate;
     }
 

@@ -45,8 +45,8 @@ public class TaskService {
     public Task patchTask(Map<String, String> updates, Task taskToPatch){
         return taskRepository.patchTask(updates, taskToPatch);
     }
-    public Task updateTask(Task task){
-        return taskRepository.updateTask(task);
+    public Task updateTask(Task task, Task taskToUpdate){
+        return taskRepository.updateTask(task, taskToUpdate);
     }
 }
 

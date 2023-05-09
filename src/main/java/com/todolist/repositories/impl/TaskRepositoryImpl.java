@@ -15,6 +15,7 @@ import java.util.Map;
 public class TaskRepositoryImpl implements TaskRepository {
     private Map<Long, Task> tasks = new HashMap<>();
     private Long TASK_ID = 0L;
+    private Map<String,String> updates = new HashMap<>();
 
     @Override
     public Task saveTask(Task task) {
@@ -25,10 +26,28 @@ public class TaskRepositoryImpl implements TaskRepository {
         TASK_ID += 1;
         return task;
     }
-
     @Override
     public List<Task> getTasks() {
         return new LinkedList<>(tasks.values());
+    }
+
+    @Override
+    public Task patchTask(Map <String, String> updates, Task taskToPatch) {
+        if (updates.containsKey("title")) {
+            taskToPatch.setTitle(updates.get("title"));
+        }
+        if (updates.containsKey("description")) {
+            taskToPatch.setDescription(updates.get("description"));
+        }
+        if (updates.containsKey("color")) {
+            taskToPatch.setColorAsName(updates.get("color"));
+        }
+        return taskToPatch;
+    }
+
+    @Override
+    public Task updateTask(Task taskToUpdate){
+
     }
 
 }

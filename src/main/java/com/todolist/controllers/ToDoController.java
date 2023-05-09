@@ -40,24 +40,12 @@ public class ToDoController {
     public Task patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
         Task taskToPatch = taskService.getTaskById(id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        if (updates.containsKey("title")) {
-            taskToPatch.setTitle(updates.get("title"));
-        }
-        if (updates.containsKey("description")) {
-            taskToPatch.setDescription(updates.get("description"));
-        }
-        if (updates.containsKey("color")) {
-            taskToPatch.setColorAsName(updates.get("color"));
-        }
-        return taskToPatch;
+        return taskService.patchTask(updates, taskToPatch);
     }
-    @PutMapping
-    public Task updateTask(@RequestBody TaskDto taskDtoToUpdate) {
+    @PutMapping("{id}")
+    public Task updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
         Task taskToUpdate = taskService.getTaskById(taskDtoToUpdate.getId()).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        taskToUpdate.setTitle(taskDtoToUpdate.getTitle());
-        taskToUpdate.setDescription(taskDtoToUpdate.getDescription());
-        taskToUpdate.setColorAsName(taskDtoToUpdate.getColor());
         return taskToUpdate;
     }
 

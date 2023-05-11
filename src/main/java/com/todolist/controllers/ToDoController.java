@@ -1,7 +1,6 @@
 package com.todolist.controllers;
 
 import com.todolist.models.Color;
-import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
@@ -31,22 +30,22 @@ public class ToDoController {
     }
 
     @GetMapping
-    public List<Task> getTasks(@RequestParam(value = "color", required = false) Color color,
+    public List<TaskDto> getTasks(@RequestParam(value = "color", required = false) Color color,
                                @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
     }
 
     @PatchMapping("{id}")
-    public Task patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
-        Task taskToPatch = taskService.getTaskById(id).
+    public TaskDto patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
+        TaskDto taskDtoToPatch = taskService.getTaskById(id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        return taskService.patchTask(updates, taskToPatch);
+        return taskService.patchTask(updates, taskDtoToPatch);
     }
     @PutMapping("{id}")
-    public Task updateTask(@RequestBody Task task, @PathVariable Long id) {
-        Task taskToUpdate = taskService.getTaskById(id).
+    public TaskDto updateTask(@RequestBody TaskDto taskDto, @PathVariable Long id) {
+        TaskDto taskDtoToUpdate = taskService.getTaskById(id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        return taskService.updateTask(task, taskToUpdate);
+        return taskService.updateTask(taskDto, taskDtoToUpdate);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

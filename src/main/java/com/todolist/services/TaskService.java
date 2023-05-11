@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class TaskService {
@@ -27,26 +26,29 @@ public class TaskService {
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
     }
 
-    public List<Task> getTasks(Color color, String title) {
-        Stream<Task> taskStream = taskRepository.getTasks().stream();
-        if (color != null) {
-            taskStream = taskStream.filter(c -> c.getColor().equals(color));
-        }
-        if (title != null) {
-            taskStream = taskStream.filter(c -> c.getTitle().contains(title));
-        }
-        return taskStream.collect(Collectors.toList());
+    public List<TaskDto> getTasks(Color color, String title) {
+        return taskRepository.getTasks(color, title)
+                .stream()
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).
+                collect(Collectors.toList());
     }
-    public Optional<Task> getTaskById(Long id) {
-        return taskRepository.getTasks().stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst();
+
+    public Optional<TaskDto> getTaskById(Long id) {
+        return taskRepository.getTaskById(id)
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
-    public Task patchTask(Map<String, String> updates, Task taskToPatch){
-        return taskRepository.patchTask(updates, taskToPatch);
+
+    public TaskDto patchTask(Map<String, String> updates, TaskDto taskDtoToPatch) {
+        Task taskToPatch = new Task(taskDtoToPatch.getTitle(), taskDtoToPatch.getDescription(), Color.valueOf(taskDtoToPatch.getColor()));
+        Task task = taskRepository.patchTask(updates, taskToPatch);
+        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
     }
-    public Task updateTask(Task task, Task taskToUpdate){
-        return taskRepository.updateTask(task, taskToUpdate);
+
+    public TaskDto updateTask(TaskDto taskDto, TaskDto taskDtoToUpdate) {
+        Task task = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor()));
+        Task taskToUpdate = new Task(taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
+        Task taskUpdate = taskRepository.updateTask(task, taskToUpdate);
+        return new TaskDto(taskUpdate.getId(),taskUpdate.getTitle(),taskUpdate.getDescription(), taskUpdate.getColorAsName());
     }
 }
 

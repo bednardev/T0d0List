@@ -61,7 +61,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Optional<Task> getTaskById(Long id) {
-        return new LinkedList<>(tasks.values()).stream()
+        return   tasks.values().stream()
                 .filter(t -> t.getId().equals(id))
                 .findFirst();
     }

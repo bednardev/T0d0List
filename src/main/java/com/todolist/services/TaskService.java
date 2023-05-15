@@ -33,22 +33,22 @@ public class TaskService {
                 collect(Collectors.toList());
     }
 
-    public Optional<TaskDto> getTaskById(Long id) {
-        return taskRepository.getTaskById(id)
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+    public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
+        return taskRepository.patchTask(updates, id).
+                stream().
+                findFirst().
+                map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 
-    public TaskDto patchTask(Map<String, String> updates, TaskDto taskDtoToPatch) {
-        Task taskToPatch = new Task(taskDtoToPatch.getTitle(), taskDtoToPatch.getDescription(), Color.valueOf(taskDtoToPatch.getColor()));
-        Task task = taskRepository.patchTask(updates, taskToPatch);
-        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
+    public Optional<TaskDto> updateTask(Task taskToUpdate, Long id) {
+        return taskRepository.updateTask(taskToUpdate, id).
+                stream().
+                findFirst().
+                map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 
-    public TaskDto updateTask(TaskDto taskDto, TaskDto taskDtoToUpdate) {
-        Task task = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor()));
-        Task taskToUpdate = new Task(taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
-        Task taskUpdate = taskRepository.updateTask(task, taskToUpdate);
-        return new TaskDto(taskUpdate.getId(),taskUpdate.getTitle(),taskUpdate.getDescription(), taskUpdate.getColorAsName());
+    public void deleteTask(Long id) {
+        taskRepository.deleteTask(id);
     }
 }
 

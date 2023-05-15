@@ -25,6 +25,7 @@ public class TaskRepositoryImpl implements TaskRepository {
         TASK_ID += 1;
         return task;
     }
+
     @Override
     public List<Task> getTasks(Color color, String title) {
         Stream<Task> taskStream = new LinkedList<>(tasks.values()).stream();
@@ -38,32 +39,39 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Task patchTask(Map<String, String> updates, Task taskToPatch) {
-        if (updates.containsKey("title")) {
-            taskToPatch.setTitle(updates.get("title"));
+    public Optional<Task> patchTask(Map<String, String> updates, Long id) {
+        if (tasks.containsKey(id)) {
+            Task taskToPatch = tasks.get(id);
+            if (updates.containsKey("title")) {
+                taskToPatch.setTitle(updates.get("title"));
+            }
+            if (updates.containsKey("description")) {
+                taskToPatch.setDescription(updates.get("description"));
+            }
+            if (updates.containsKey("color")) {
+                taskToPatch.setColorAsName(updates.get("color"));
+            }
+            return Optional.of(taskToPatch);
         }
-        if (updates.containsKey("description")) {
-            taskToPatch.setDescription(updates.get("description"));
-        }
-        if (updates.containsKey("color")) {
-            taskToPatch.setColorAsName(updates.get("color"));
-        }
-        return taskToPatch;
+        return Optional.empty();
     }
 
     @Override
-    public Task updateTask(Task task, Task taskToUpdate) {
-        taskToUpdate.setTitle(task.getTitle());
-        taskToUpdate.setDescription(task.getDescription());
-        taskToUpdate.setColor(task.getColor());
-        return taskToUpdate;
+    public Optional<Task> updateTask(Task task, Long id) {
+        if (tasks.containsKey(id)) {
+            Task taskToUpdate = tasks.get(id);
+            taskToUpdate.setTitle(task.getTitle());
+            taskToUpdate.setDescription(task.getDescription());
+            taskToUpdate.setColor(task.getColor());
+            return Optional.of(taskToUpdate);
+        }
+        return Optional.empty();
     }
 
     @Override
-    public Optional<Task> getTaskById(Long id) {
-        return   tasks.values().stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst();
+    public void deleteTask(Long id) {
+        if (tasks.containsKey(id)) {
+            tasks.remove(id);
+        }
     }
-
 }

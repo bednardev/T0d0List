@@ -1,6 +1,7 @@
 package com.todolist.controllers;
 
 import com.todolist.models.Color;
+import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
@@ -31,21 +32,26 @@ public class ToDoController {
 
     @GetMapping
     public List<TaskDto> getTasks(@RequestParam(value = "color", required = false) Color color,
-                               @RequestParam(value = "title", required = false) String title) {
+                                  @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
     }
 
     @PatchMapping("{id}")
     public TaskDto patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
-        TaskDto taskDtoToPatch = taskService.getTaskById(id).
+        return taskService.patchTask(updates, id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        return taskService.patchTask(updates, taskDtoToPatch);
     }
+
     @PutMapping("{id}")
-    public TaskDto updateTask(@RequestBody TaskDto taskDto, @PathVariable Long id) {
-        TaskDto taskDtoToUpdate = taskService.getTaskById(id).
+    public TaskDto updateTask(@RequestBody Task taskToUpdate, @PathVariable Long id) {
+        return taskService.updateTask(taskToUpdate, id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        return taskService.updateTask(taskDto, taskDtoToUpdate);
+    }
+
+    @DeleteMapping("{id}")
+    public String deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+        return "task with id: " + id + " has been successfully removed";
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -53,10 +59,12 @@ public class ToDoController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("status", "400", "errors", prepareMapFromValidationErrors(ex)));
     }
+
     @ExceptionHandler(HttpClientErrorException.class)
-    public ResponseEntity<Map<String,String>>  handleHttpClientErrorException(HttpClientErrorException e) {
+    public ResponseEntity<Map<String, String>> handleHttpClientErrorException(HttpClientErrorException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "status 404, id not exist"));
     }
+
     private String prepareMapFromValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errorMap = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {

@@ -12,10 +12,9 @@ public interface TaskRepository {
 
     List<Task> getTasks(Color color, String title);
 
-    Task patchTask(Map<String, String> updates, Task taskToPatch);
+    Optional<Task> patchTask(Map<String, String> updates, Long id);
 
-    Task updateTask(Task task, Task taskToUpdate);
+    Optional<Task> updateTask(Task task, Long id);
 
-    Optional<Task> getTaskById(Long id);
-
+    void deleteTask(Long id);
 }

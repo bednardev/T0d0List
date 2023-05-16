@@ -7,9 +7,9 @@ import com.todolist.repositories.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class TaskService {
@@ -26,21 +26,26 @@ public class TaskService {
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
     }
 
-    public List<Task> getTasks(Color color, String title) {
-        Stream<Task> taskStream = taskRepository.getTasks().stream();
-        if (color != null) {
-            taskStream = taskStream.filter(c -> c.getColor().equals(color));
-        }
-        if (title != null) {
-            taskStream = taskStream.filter(c -> c.getTitle().contains(title));
-        }
-        return taskStream.collect(Collectors.toList());
+    public List<TaskDto> getTasks(Color color, String title) {
+        return taskRepository.getTasks(color, title)
+                .stream()
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).
+                collect(Collectors.toList());
     }
 
-    public Optional<Task> getTaskById(Long id) {
-        return taskRepository.getTasks().stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst();
+    public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
+        return taskRepository.patchTask(updates, id).
+                map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+    }
+
+    public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
+        Task taskToUpdate = new Task(taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
+        return taskRepository.updateTask(taskToUpdate, id).
+                map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+    }
+
+    public void deleteTask(Long id) {
+        taskRepository.deleteTask(id);
     }
 }
 

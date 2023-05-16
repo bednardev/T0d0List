@@ -1,7 +1,6 @@
 package com.todolist.controllers;
 
 import com.todolist.models.Color;
-import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
@@ -43,8 +42,8 @@ public class ToDoController {
     }
 
     @PutMapping("{id}")
-    public TaskDto updateTask(@RequestBody Task taskToUpdate, @PathVariable Long id) {
-        return taskService.updateTask(taskToUpdate, id).
+    public TaskDto updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
+        return taskService.updateTask(taskDtoToUpdate, id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
 

@@ -35,15 +35,12 @@ public class TaskService {
 
     public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
         return taskRepository.patchTask(updates, id).
-                stream().
-                findFirst().
                 map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 
-    public Optional<TaskDto> updateTask(Task taskToUpdate, Long id) {
+    public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
+        Task taskToUpdate = new Task(taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
         return taskRepository.updateTask(taskToUpdate, id).
-                stream().
-                findFirst().
                 map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 

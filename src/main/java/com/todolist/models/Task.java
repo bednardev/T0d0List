@@ -1,14 +1,29 @@
 package com.todolist.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.time.Instant;
 
+@Entity
 public class Task implements Auditable {
+    @Id
+    @Column
     private Long id;
+    @Column
     private String title;
+    @Column
     private String description;
+    @Column
     private Color color;
+    @Column
     private Instant createdAt;
+    @Column
     private Instant lastUpdatedAt;
+
+    public Task() {
+    }
 
     public Task(String title, String description, Color color) {
         this.title = title;
@@ -37,6 +52,7 @@ public class Task implements Auditable {
     public Color getColor() {
         return color;
     }
+
     public void setColor(Color color) {
         this.color = color;
     }
@@ -67,10 +83,7 @@ public class Task implements Auditable {
     }
 
     public String toString() {
-        return " id: " + id +
-                " title: " + title +
-                " description: " + description +
-                " color: " + color;
+        return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
     }
 
     public String getColorAsName() {

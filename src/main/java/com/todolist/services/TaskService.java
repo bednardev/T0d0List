@@ -28,12 +28,6 @@ public class TaskService {
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
     }
 
-    /*   public List<TaskDto> getTasks(Color color, String title) {
-            return taskRepository.getTasks(color, title)
-                    .stream()
-                    .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).
-                    collect(Collectors.toList());
-    */
     public List<TaskDto> getTasks(Color color, String title) {
         List<Task> tasks = new ArrayList<>();
         taskRepository.findAll().forEach(t -> tasks.add(t));
@@ -84,6 +78,7 @@ public class TaskService {
         return taskOptional
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
+
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }

@@ -31,9 +31,10 @@ public class ToDoController {
 
     @GetMapping
     public List<TaskDto> getTasks(@RequestParam(value = "color", required = false) Color color,
-                                 @RequestParam(value = "title", required = false) String title) {
+                                  @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
     }
+
     @PutMapping("{id}")
     public TaskDto updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
         return taskService.updateTask(taskDtoToUpdate, id).

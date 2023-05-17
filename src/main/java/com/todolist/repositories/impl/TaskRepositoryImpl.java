@@ -1,4 +1,4 @@
-package com.todolist.repositories.impl;
+/* package com.todolist.repositories.impl;
 
 
 import com.todolist.models.Color;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Repository
-public class TaskRepositoryImpl implements TaskRepository {
+public class TaskRepositoryImpl {
     private Map<Long, Task> tasks = new HashMap<>();
     private Long TASK_ID = 0L;
 
@@ -75,3 +75,5 @@ public class TaskRepositoryImpl implements TaskRepository {
         }
     }
 }
+
+ */

@@ -1,19 +1,11 @@
 package com.todolist.controllers;
 
-import com.todolist.models.Color;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequestMapping("/tasks")
 @RestController
@@ -30,11 +22,13 @@ public class ToDoController {
     }
 
     @GetMapping
-    public List<TaskDto> getTasks(@RequestParam(value = "color", required = false) Color color,
+/*    public List<TaskDto> getTasks(@RequestParam(value = "color", required = false) Color color,
                                   @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
+*/ public List<TaskDto> getTasks() {
+        return taskService.getTasks();
     }
-
+/*
     @PatchMapping("{id}")
     public TaskDto patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
         return taskService.patchTask(updates, id).
@@ -73,4 +67,6 @@ public class ToDoController {
         });
         return errorMap.toString();
     }
+
+ */
 }

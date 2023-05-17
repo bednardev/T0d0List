@@ -1,7 +1,7 @@
 package com.todolist.models;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 import java.time.Instant;
@@ -9,17 +9,12 @@ import java.time.Instant;
 @Entity
 public class Task implements Auditable {
     @Id
-    @Column
+    @GeneratedValue
     private Long id;
-    @Column
     private String title;
-    @Column
     private String description;
-    @Column
     private Color color;
-    @Column
     private Instant createdAt;
-    @Column
     private Instant lastUpdatedAt;
 
     public Task() {
@@ -39,7 +34,6 @@ public class Task implements Auditable {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
-
     @Override
     public Instant getLastUpdatedAt() {
         return lastUpdatedAt;

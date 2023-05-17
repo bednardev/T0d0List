@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TaskService {
@@ -33,10 +34,18 @@ public class TaskService {
                     .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).
                     collect(Collectors.toList());
     */
-    public List<TaskDto> getTasks() {
+    public List<TaskDto> getTasks(Color color, String title) {
         List<Task> tasks = new ArrayList<>();
         taskRepository.findAll().forEach(t -> tasks.add(t));
-        return tasks.stream().map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).collect(Collectors.toList());
+        Stream<Task> taskStream = tasks.stream();
+        if (color != null) {
+            taskStream = taskStream.filter(c -> c.getColor().equals(color));
+        }
+        if (title != null) {
+            taskStream = taskStream.filter(c -> c.getTitle().contains(title));
+        }
+        return taskStream
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).collect(Collectors.toList());
     }
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {

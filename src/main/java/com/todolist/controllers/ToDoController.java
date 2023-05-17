@@ -3,9 +3,16 @@ package com.todolist.controllers;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/tasks")
 @RestController
@@ -28,16 +35,16 @@ public class ToDoController {
 */ public List<TaskDto> getTasks() {
         return taskService.getTasks();
     }
-/*
-    @PatchMapping("{id}")
-    public TaskDto patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
-        return taskService.patchTask(updates, id).
-                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-    }
 
     @PutMapping("{id}")
     public TaskDto updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
         return taskService.updateTask(taskDtoToUpdate, id).
+                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    }
+
+    @PatchMapping("{id}")
+    public TaskDto patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
+        return taskService.patchTask(updates, id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
 
@@ -67,6 +74,4 @@ public class ToDoController {
         });
         return errorMap.toString();
     }
-
- */
 }

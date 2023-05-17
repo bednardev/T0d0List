@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,21 +38,44 @@ public class TaskService {
         taskRepository.findAll().forEach(t -> tasks.add(t));
         return tasks.stream().map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).collect(Collectors.toList());
     }
-/*
-    public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
-        return taskRepository.patchTask(updates, id).
-                map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
-    }
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
         Task taskToUpdate = new Task(taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
-        return taskRepository.updateTask(taskToUpdate, id).
-                map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+        Optional<Task> taskOptional = taskRepository.findById(id);
+        if (taskOptional.isPresent()) {
+            Task taskSaved = taskOptional.get();
+            taskSaved.setTitle(taskToUpdate.getTitle());
+            taskSaved.setDescription(taskToUpdate.getDescription());
+            taskSaved.setColor(taskToUpdate.getColor());
+            taskOptional = Optional.of(taskRepository.save(taskSaved));
+        } else {
+            taskOptional = Optional.empty();
+        }
+        return taskOptional
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 
+    public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
+        Optional<Task> taskOptional = taskRepository.findById(id);
+        if (taskOptional.isPresent()) {
+            Task taskToPatch = taskOptional.get();
+            if (updates.containsKey("title")) {
+                taskToPatch.setTitle(updates.get("title"));
+            }
+            if (updates.containsKey("description")) {
+                taskToPatch.setDescription(updates.get("description"));
+            }
+            if (updates.containsKey("color")) {
+                taskToPatch.setColorAsName(updates.get("color"));
+            }
+            taskOptional = Optional.of(taskRepository.save(taskToPatch));
+        } else {
+            taskOptional = Optional.empty();
+        }
+        return taskOptional
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+    }
     public void deleteTask(Long id) {
-        taskRepository.deleteTask(id);
+        taskRepository.deleteById(id);
     }
-
- */
 }

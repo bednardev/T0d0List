@@ -6,6 +6,7 @@ import com.todolist.models.TaskDto;
 import com.todolist.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class TaskService {
 
     public TaskDto saveTask(TaskDto taskDto) {
         Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()));
+        taskToSave.setCreatedAt(Instant.now());
         Task task = taskRepository.save(taskToSave);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
     }
@@ -43,39 +45,30 @@ public class TaskService {
     }
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
-        Task taskToUpdate = new Task(taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
-        Optional<Task> taskOptional = taskRepository.findById(id);
-        if (taskOptional.isPresent()) {
-            Task taskSaved = taskOptional.get();
-            taskSaved.setTitle(taskToUpdate.getTitle());
-            taskSaved.setDescription(taskToUpdate.getDescription());
-            taskSaved.setColor(taskToUpdate.getColor());
-            taskOptional = Optional.of(taskRepository.save(taskSaved));
-        } else {
-            taskOptional = Optional.empty();
-        }
-        return taskOptional
+        Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
+        taskToUpdate.setLastUpdatedAt(Instant.now());
+        return taskRepository.findById(id)
+                .map(t -> taskRepository.save(taskToUpdate))
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 
-    public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
-        Optional<Task> taskOptional = taskRepository.findById(id);
-        if (taskOptional.isPresent()) {
-            Task taskToPatch = taskOptional.get();
-            if (updates.containsKey("title")) {
-                taskToPatch.setTitle(updates.get("title"));
-            }
-            if (updates.containsKey("description")) {
-                taskToPatch.setDescription(updates.get("description"));
-            }
-            if (updates.containsKey("color")) {
-                taskToPatch.setColorAsName(updates.get("color"));
-            }
-            taskOptional = Optional.of(taskRepository.save(taskToPatch));
-        } else {
-            taskOptional = Optional.empty();
+    private Task setTaskToPatch(Map<String, String> updates, Task taskToPatch){
+        if (updates.containsKey("title")) {
+            taskToPatch.setTitle(updates.get("title"));
         }
-        return taskOptional
+        if (updates.containsKey("description")) {
+            taskToPatch.setDescription(updates.get("description"));
+        }
+        if (updates.containsKey("color")) {
+            taskToPatch.setColorAsName(updates.get("color"));
+        }
+        taskToPatch.setLastUpdatedAt(Instant.now());
+        taskRepository.save(taskToPatch);
+        return taskToPatch;
+    }
+    public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
+        return taskRepository.findById(id)
+                .map(t -> setTaskToPatch(updates, t))
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 

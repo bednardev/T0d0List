@@ -25,7 +25,12 @@ public class Task implements Auditable {
         this.description = description;
         this.color = color;
     }
-
+    public Task(Long id,String title, String description, Color color) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.color = color;
+    }
     @Override
     public Instant getCreatedAt() {
         return createdAt;

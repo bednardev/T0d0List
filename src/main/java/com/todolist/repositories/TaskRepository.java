@@ -13,10 +13,10 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
     @Query("SELECT task FROM Task task WHERE task.color = :color")
     List<Task> findTasksByColor(@Param("color") Color color);
 
-    @Query("SELECT task FROM Task task WHERE task.title = :title")
+    @Query("SELECT task FROM Task task WHERE task.title like %:title%")
     List<Task> findTasksByTitle(@Param("title") String title);
 
-    @Query("SELECT task FROM Task task WHERE task.title = :title AND task.color = :color")
+    @Query("SELECT task FROM Task task WHERE task.title like %:title% AND task.color = :color")
     List<Task> findTasksByTitleAndColor(@Param("title") String title, @Param("color") Color color);
 
 

@@ -34,11 +34,13 @@ public class TaskService {
         List<Task> tasks = new ArrayList<>();
         taskRepository.findAll().forEach(t -> tasks.add(t));
         Stream<Task> taskStream = tasks.stream();
-        if (color != null) {
-            taskStream = taskStream.filter(c -> c.getColor().equals(color));
+        if (color != null & title != null)
+            taskStream = taskRepository.findTasksByTitleAndColor(title, color).stream();
+        else if (color != null) {
+            taskStream = taskRepository.findTasksByColor(color).stream();
         }
-        if (title != null) {
-            taskStream = taskStream.filter(c -> c.getTitle().contains(title));
+        else if (title != null) {
+            taskStream = taskRepository.findTasksByTitle(title).stream();
         }
         return taskStream
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).collect(Collectors.toList());

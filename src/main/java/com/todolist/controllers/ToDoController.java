@@ -48,9 +48,8 @@ public class ToDoController {
     }
 
     @DeleteMapping("{id}")
-    public String deleteTask(@PathVariable Long id) {
+    public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
-        return "task with id: " + id + " has been successfully removed";
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

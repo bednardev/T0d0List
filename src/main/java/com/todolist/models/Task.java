@@ -25,12 +25,16 @@ public class Task implements Auditable {
         this.description = description;
         this.color = color;
     }
-    public Task(Long id,String title, String description, Color color) {
+
+    public Task(Long id, Instant createdAt, String title, String description, Color color) {
         this.id = id;
+        this.createdAt = createdAt;
         this.title = title;
         this.description = description;
         this.color = color;
     }
+
+
     @Override
     public Instant getCreatedAt() {
         return createdAt;
@@ -39,6 +43,7 @@ public class Task implements Auditable {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
+
     @Override
     public Instant getLastUpdatedAt() {
         return lastUpdatedAt;

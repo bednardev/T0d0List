@@ -1,20 +1,28 @@
 package com.todolist.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Entity
-public class Task implements Auditable {
+@EntityListeners(AuditingEntityListener.class)
+public class Task {
     @Id
     @GeneratedValue
     private Long id;
     private String title;
     private String description;
     private Color color;
+
+    @CreatedDate
     private Instant createdAt;
+    @LastModifiedDate
     private Instant lastUpdatedAt;
 
     public Task() {
@@ -34,8 +42,6 @@ public class Task implements Auditable {
         this.color = color;
     }
 
-
-    @Override
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -43,8 +49,6 @@ public class Task implements Auditable {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
-
-    @Override
     public Instant getLastUpdatedAt() {
         return lastUpdatedAt;
     }

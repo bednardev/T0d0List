@@ -6,7 +6,6 @@ import com.todolist.models.TaskDto;
 import com.todolist.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ public class TaskService {
 
     public TaskDto saveTask(TaskDto taskDto) {
         Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()));
-        taskToSave.setCreatedAt(Instant.now());
         Task task = taskRepository.save(taskToSave);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
     }
@@ -48,7 +46,6 @@ public class TaskService {
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
         Task taskToUpdate = new Task(id, taskRepository.findById(id).get().getCreatedAt(), taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor()));
-        taskToUpdate.setLastUpdatedAt(Instant.now());
         return taskRepository.findById(id)
                 .map(t -> taskRepository.save(taskToUpdate))
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
@@ -64,7 +61,6 @@ public class TaskService {
         if (updates.containsKey("color")) {
             taskToPatch.setColorAsName(updates.get("color"));
         }
-        taskToPatch.setLastUpdatedAt(Instant.now());
         taskRepository.save(taskToPatch);
         return taskToPatch;
     }

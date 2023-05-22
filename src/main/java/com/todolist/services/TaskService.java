@@ -70,7 +70,13 @@ public class TaskService {
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
 
-    public void deleteTask(Long id) {
+    public Optional<TaskDto> findById(Long id){
+        return taskRepository.findById(id)
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+    }
+
+    public String deleteTask(Long id) {
         taskRepository.deleteById(id);
+        return "task with id: " + id + " successfully deleted";
     }
 }

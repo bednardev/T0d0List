@@ -48,8 +48,10 @@ public class ToDoController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    public String deleteTask(@PathVariable Long id) {
+        taskService.findById(id).
+                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        return taskService.deleteTask(id);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

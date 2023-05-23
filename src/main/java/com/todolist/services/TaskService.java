@@ -28,14 +28,14 @@ public class TaskService {
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
     }
 
-    public List<TaskDto> getTasks(Color color, String title) {
+    public List<TaskDto> getTasks(String color, String title) {
         List<Task> tasks = new ArrayList<>();
         taskRepository.findAll().forEach(t -> tasks.add(t));
         Stream<Task> taskStream = tasks.stream();
         if (color != null & title != null)
-            taskStream = taskRepository.findTasksByTitleAndColor(title, color).stream();
+            taskStream = taskRepository.findTasksByTitleAndColor(title, Color.valueOf(color.toUpperCase())).stream();
         else if (color != null) {
-            taskStream = taskRepository.findTasksByColor(color).stream();
+            taskStream = taskRepository.findTasksByColor(Color.valueOf(color.toUpperCase())).stream();
         }
         else if (title != null) {
             taskStream = taskRepository.findTasksByTitle(title).stream();

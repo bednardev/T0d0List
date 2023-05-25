@@ -1,14 +1,32 @@
 package com.todolist.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.time.Instant;
 
-public class Task implements Auditable {
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class Task {
+    @Id
+    @GeneratedValue
     private Long id;
     private String title;
     private String description;
     private Color color;
+
+    @CreatedDate
     private Instant createdAt;
+    @LastModifiedDate
     private Instant lastUpdatedAt;
+
+    public Task() {
+    }
 
     public Task(String title, String description, Color color) {
         this.title = title;
@@ -16,7 +34,14 @@ public class Task implements Auditable {
         this.color = color;
     }
 
-    @Override
+    public Task(Long id, Instant createdAt, String title, String description, Color color) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.title = title;
+        this.description = description;
+        this.color = color;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -24,8 +49,6 @@ public class Task implements Auditable {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
-
-    @Override
     public Instant getLastUpdatedAt() {
         return lastUpdatedAt;
     }
@@ -37,6 +60,7 @@ public class Task implements Auditable {
     public Color getColor() {
         return color;
     }
+
     public void setColor(Color color) {
         this.color = color;
     }
@@ -67,10 +91,7 @@ public class Task implements Auditable {
     }
 
     public String toString() {
-        return " id: " + id +
-                " title: " + title +
-                " description: " + description +
-                " color: " + color;
+        return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
     }
 
     public String getColorAsName() {

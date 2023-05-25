@@ -1,6 +1,5 @@
 package com.todolist.controllers;
 
-import com.todolist.models.Color;
 import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
@@ -30,15 +29,9 @@ public class ToDoController {
     }
 
     @GetMapping
-    public List<TaskDto> getTasks(@RequestParam(value = "color", required = false) Color color,
+    public List<TaskDto> getTasks(@RequestParam(value = "color", required = false) String color,
                                   @RequestParam(value = "title", required = false) String title) {
         return taskService.getTasks(color, title);
-    }
-
-    @PatchMapping("{id}")
-    public TaskDto patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
-        return taskService.patchTask(updates, id).
-                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("{id}")
@@ -47,10 +40,17 @@ public class ToDoController {
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
 
+    @PatchMapping("{id}")
+    public TaskDto patchTask(@RequestBody Map<String, String> updates, @PathVariable Long id) {
+        return taskService.patchTask(updates, id).
+                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    }
+
     @DeleteMapping("{id}")
     public String deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
-        return "task with id: " + id + " has been successfully removed";
+        taskService.findById(id).
+                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        return taskService.deleteTask(id);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -2,19 +2,23 @@ package com.todolist.repositories;
 
 import com.todolist.models.Color;
 import com.todolist.models.Task;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
-public interface TaskRepository {
-    Task saveTask(Task task);
+public interface TaskRepository extends CrudRepository<Task, Long> {
 
-    List<Task> getTasks(Color color, String title);
+    @Query("SELECT task FROM Task task WHERE task.color = :color")
+    List<Task> findTasksByColor(@Param("color") Color color);
 
-    Optional<Task> patchTask(Map<String, String> updates, Long id);
+    @Query("SELECT task FROM Task task WHERE task.title like %:title%")
+    List<Task> findTasksByTitle(@Param("title") String title);
 
-    Optional<Task> updateTask(Task task, Long id);
+    @Query("SELECT task FROM Task task WHERE task.title like %:title% AND task.color = :color")
+    List<Task> findTasksByTitleAndColor(@Param("title") String title, @Param("color") Color color);
 
-    void deleteTask(Long id);
+
 }
+

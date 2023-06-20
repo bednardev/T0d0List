@@ -4,6 +4,7 @@ import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.repositories.TaskRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +22,15 @@ public class TaskService {
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
+    private Specification<Task> titleLike(String title){
+        return (root, query, criteriaBuilder)
+                -> criteriaBuilder.like(root.get("title"), "%"+title+"%");
+    }
+
+    private Specification<Task> colorLike(String color){
+        return (root, query, criteriaBuilder)
+                -> criteriaBuilder.like(root.get("color"), "%"+color+"%");
+    }
 
     public TaskDto saveTask(TaskDto taskDto) {
         Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()));
@@ -35,10 +45,10 @@ public class TaskService {
         if (color != null & title != null)
             taskStream = taskRepository.findTasksByTitleAndColor(title, Color.valueOf(color.toUpperCase())).stream();
         else if (color != null) {
-            taskStream = taskRepository.findTasksByColor(Color.valueOf(color.toUpperCase())).stream();
+            taskStream = taskRepository.findAll(colorLike(color)).stream();
         }
         else if (title != null) {
-            taskStream = taskRepository.findTasksByTitle(title).stream();
+            taskStream = taskRepository.findAll(titleLike(title)).stream();
         }
         return taskStream
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).collect(Collectors.toList());

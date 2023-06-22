@@ -1,29 +1,30 @@
 package com.todolist.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name="tasks")
 public class Task {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ID")
     private Long id;
+    @Column(name="Title")
     private String title;
+    @Column(name="Description")
+
     private String description;
+    @Column(name="Color")
     private Color color;
 
-    @CreatedDate
-    private Instant createdAt;
-    @LastModifiedDate
-    private Instant lastUpdatedAt;
+//    @CreatedDate
+//    private Instant createdAt;
+//    @LastModifiedDate
+//    private Instant lastUpdatedAt;
 
     public Task() {
     }
@@ -36,25 +37,25 @@ public class Task {
 
     public Task(Long id, Instant createdAt, String title, String description, Color color) {
         this.id = id;
-        this.createdAt = createdAt;
+//        this.createdAt = createdAt;
         this.title = title;
         this.description = description;
         this.color = color;
     }
 
     public Instant getCreatedAt() {
-        return createdAt;
+        return null;
     }
 
     public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+ //       this.createdAt = createdAt;
     }
     public Instant getLastUpdatedAt() {
-        return lastUpdatedAt;
+        return null;
     }
 
     public void setLastUpdatedAt(Instant lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
+ //       this.lastUpdatedAt = lastUpdatedAt;
     }
 
     public Color getColor() {

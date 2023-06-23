@@ -1,6 +1,8 @@
 package com.todolist.models;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
@@ -21,10 +23,12 @@ public class Task {
     @Column(name="Color")
     private Color color;
 
-//    @CreatedDate
-//    private Instant createdAt;
-//    @LastModifiedDate
-//    private Instant lastUpdatedAt;
+@CreatedDate
+@Column(name="CreatedAt")
+private Instant createdAt;
+@LastModifiedDate
+@Column(name="LastUpdatedAt")
+private Instant lastUpdatedAt;
 
     public Task() {
     }
@@ -37,25 +41,25 @@ public class Task {
 
     public Task(Long id, Instant createdAt, String title, String description, Color color) {
         this.id = id;
-//        this.createdAt = createdAt;
+        this.createdAt = createdAt;
         this.title = title;
         this.description = description;
         this.color = color;
     }
 
     public Instant getCreatedAt() {
-        return null;
+        return createdAt;
     }
 
     public void setCreatedAt(Instant createdAt) {
- //       this.createdAt = createdAt;
+       this.createdAt = createdAt;
     }
     public Instant getLastUpdatedAt() {
-        return null;
+        return lastUpdatedAt;
     }
 
     public void setLastUpdatedAt(Instant lastUpdatedAt) {
- //       this.lastUpdatedAt = lastUpdatedAt;
+        this.lastUpdatedAt = lastUpdatedAt;
     }
 
     public Color getColor() {

@@ -3,11 +3,9 @@ package com.todolist.controllers;
 
 import com.todolist.models.UserDto;
 import com.todolist.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -28,6 +26,17 @@ public class UserController {
     @GetMapping
     public List<UserDto> getUsers() {
         return userService.getUsers();
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+    }
+
+    @PutMapping("{id}")
+    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+        return userService.updateUser(userDto, id)
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,5 +30,16 @@ public class UserService {
                 stream().
                 map(user -> new UserDto (user.getId(), user.getName(), user.getSurname(), user.getMail())).
                 collect(Collectors.toList());
+    }
+
+    public void deleteUser(Long id){
+        userRepository.deleteById(id);
+    }
+
+    public Optional<UserDto> updateUser(UserDto userDtoToUpdate, Long id){
+        User userToUpdate = new User(id, userDtoToUpdate.getName(), userDtoToUpdate.getSurname(), userDtoToUpdate.getMail());
+        return userRepository.findById(id).
+                map(u -> userRepository.save(userToUpdate)).
+        map(user -> new UserDto(user.getId() ,user.getName(), user.getSurname(), user.getMail()));
     }
 }

@@ -37,6 +37,12 @@ public class User {
         this.mail = mail;
     }
 
+    public User(Long id, String name, String surname, String mail) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.mail = mail;
+    }
     public String getName() {
         return name;
     }

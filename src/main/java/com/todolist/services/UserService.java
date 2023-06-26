@@ -32,6 +32,10 @@ public class UserService {
                 collect(Collectors.toList());
     }
 
+    public Optional<UserDto> findById(Long id) {
+        return userRepository.findById(id).
+                map(user -> new UserDto(user.getId(),user.getName(), user.getSurname(), user.getMail()));
+    }
     public void deleteUser(Long id){
         userRepository.deleteById(id);
     }

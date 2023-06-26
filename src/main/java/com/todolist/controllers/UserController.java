@@ -4,10 +4,12 @@ package com.todolist.controllers;
 import com.todolist.models.UserDto;
 import com.todolist.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -30,6 +32,8 @@ public class UserController {
 
     @DeleteMapping("{id}")
     public void deleteUser(@PathVariable Long id){
+        userService.findById(id).
+                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         userService.deleteUser(id);
     }
 
@@ -37,6 +41,10 @@ public class UserController {
     public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
         return userService.updateUser(userDto, id)
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    }
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<Map<String, String>> handleHttpClientErrorException(HttpClientErrorException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "status 404, id not exist"));
     }
 
 }

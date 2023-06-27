@@ -19,10 +19,12 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("status", "400", "errors", prepareMapFromValidationErrors(ex)));
     }
-@ExceptionHandler
+
+    @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleHttpClientErrorException(HttpClientErrorException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "status 404, id not exist"));
     }
+
     private String prepareMapFromValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errorMap = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {

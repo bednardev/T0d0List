@@ -31,14 +31,14 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable Long id){
+    public void deleteUser(@PathVariable Long id) {
         userService.findById(id).
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         userService.deleteUser(id);
     }
 
     @PutMapping("{id}")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         return userService.updateUser(userDto, id)
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }

@@ -4,8 +4,6 @@ import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -52,15 +50,4 @@ public class TaskController {
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         return taskService.deleteTask(id);
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return controllerExceptionHandler.handleValidationExceptions(ex);
-    }
-
-    @ExceptionHandler(HttpClientErrorException.class)
-    public ResponseEntity<Map<String, String>> handleHttpClientErrorException(HttpClientErrorException e) {
-        return controllerExceptionHandler.handleHttpClientErrorException(e);
-    }
-
 }

@@ -15,9 +15,11 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final ControllerExceptionHandler controllerExceptionHandler;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ControllerExceptionHandler controllerExceptionHandler) {
         this.userService = userService;
+        this.controllerExceptionHandler = controllerExceptionHandler;
     }
 
     @PostMapping
@@ -44,7 +46,6 @@ public class UserController {
     }
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<Map<String, String>> handleHttpClientErrorException(HttpClientErrorException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "status 404, id not exist"));
+        return controllerExceptionHandler.handleHttpClientErrorException(e);
     }
-
 }

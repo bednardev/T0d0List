@@ -5,12 +5,10 @@ import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +16,11 @@ import java.util.Map;
 @RestController
 public class TaskController {
     private final TaskService taskService;
+    private final ControllerExceptionHandler controllerExceptionHandler;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, ControllerExceptionHandler controllerExceptionHandler) {
         this.taskService = taskService;
+        this.controllerExceptionHandler = controllerExceptionHandler;
     }
 
     @PostMapping
@@ -55,22 +55,12 @@ public class TaskController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("status", "400", "errors", prepareMapFromValidationErrors(ex)));
+        return controllerExceptionHandler.handleValidationExceptions(ex);
     }
 
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<Map<String, String>> handleHttpClientErrorException(HttpClientErrorException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "status 404, id not exist"));
+        return controllerExceptionHandler.handleHttpClientErrorException(e);
     }
 
-    private String prepareMapFromValidationErrors(MethodArgumentNotValidException ex) {
-        Map<String, String> errorMap = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errorMap.put(fieldName, errorMessage);
-        });
-        return errorMap.toString();
-    }
 }

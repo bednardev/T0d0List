@@ -21,6 +21,7 @@ public class Task {
 
     private String description;
     @Column(name="Color")
+    @Enumerated(EnumType.STRING)
     private Color color;
 
 @CreatedDate

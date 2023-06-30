@@ -1,4 +1,4 @@
-package com.todolist.specifications;
+package com.todolist.repositories.specifications;
 
 import com.todolist.models.Task;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -7,17 +7,19 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.criteria.Predicate;
 
-public class TaskTitleSpecification implements Specification<Task> {
-    private final String title;
-
-    public TaskTitleSpecification(String title){
-        this.title = title;
+public class TaskColorSpecification implements Specification<Task> {
+    private final String color;
+    public TaskColorSpecification(String color){
+        this.color = color;
     }
 
     @Override
     public Predicate toPredicate(Root<Task> root,
                                  CriteriaQuery<?> query,
                                  CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.like(root.get("title"), "%"+title+"%");
+        return criteriaBuilder.like(root.get("color"), color);
+    }
+    public static Specification<Task> colorLike(String color){
+        return new TaskColorSpecification(color);
     }
 }

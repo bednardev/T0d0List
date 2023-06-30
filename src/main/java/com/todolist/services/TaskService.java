@@ -4,17 +4,17 @@ import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.repositories.TaskRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static com.todolist.specifications.TaskSpecifications.colorLike;
-import static com.todolist.specifications.TaskSpecifications.titleLike;
+import static com.todolist.repositories.specifications.TaskColorSpecification.colorLike;
+import static com.todolist.repositories.specifications.TaskTitleSpecification.titleLike;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 public class TaskService {
@@ -32,19 +32,19 @@ public class TaskService {
     }
 
     public List<TaskDto> getTasks(String color, String title) {
-        List<Task> tasks = new ArrayList<>();
-        taskRepository.findAll().forEach(t -> tasks.add(t));
-        Stream<Task> taskStream = tasks.stream();
-        if (color != null & title != null)
-            taskStream = taskRepository.findAll(titleLike(title).and(colorLike(color))).stream();
-        else if (color != null) {
-            taskStream = taskRepository.findAll(colorLike(color)).stream();
+        Specification<Task> spec = where(null);
+        if (color != null) {
+            spec = spec.and(colorLike(color));
         }
-        else if (title != null) {
-            taskStream = taskRepository.findAll(titleLike(title)).stream();
+        if (title != null) {
+            spec = spec.and(titleLike(title));
         }
-        return taskStream
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName())).collect(Collectors.toList());
+
+        List<Task> tasks = taskRepository.findAll(spec);
+
+        return tasks.stream()
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()))
+                .collect(Collectors.toList());
     }
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {

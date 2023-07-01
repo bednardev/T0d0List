@@ -34,7 +34,7 @@ public class TaskService {
     public List<TaskDto> getTasks(String color, String title) {
         Specification<Task> spec = where(null);
         if (color != null) {
-            spec = spec.and(colorLike(color));
+            spec = spec.and(colorLike(Color.valueOf(color)));
         }
         if (title != null) {
             spec = spec.and(titleLike(title));

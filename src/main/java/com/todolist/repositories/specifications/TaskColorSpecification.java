@@ -1,5 +1,6 @@
 package com.todolist.repositories.specifications;
 
+import com.todolist.models.Color;
 import com.todolist.models.Task;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -19,7 +20,7 @@ public class TaskColorSpecification implements Specification<Task> {
                                  CriteriaBuilder criteriaBuilder) {
         return criteriaBuilder.like(root.get("color"), color);
     }
-    public static Specification<Task> colorLike(String color){
-        return new TaskColorSpecification(color);
+    public static Specification<Task> colorLike(Color color) {
+        return (root, query, builder) -> builder.equal(root.get("color"), color);
     }
 }

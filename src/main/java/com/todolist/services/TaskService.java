@@ -4,6 +4,10 @@ import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.repositories.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +50,14 @@ public class TaskService {
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()))
                 .collect(Collectors.toList());
     }
+
+
+    public Page<TaskDto> getTasksAsPage(Integer pageNumber, Integer pageSize, String sortBy) {
+        Pageable taskPage = PageRequest.of(pageNumber, pageSize, Sort.by("title"));
+        return taskRepository.findAll(taskPage)
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+    }
+
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
         Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()));

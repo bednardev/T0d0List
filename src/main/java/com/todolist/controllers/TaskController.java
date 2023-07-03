@@ -14,11 +14,8 @@ import java.util.Map;
 @RestController
 public class TaskController {
     private final TaskService taskService;
-    private final ControllerExceptionHandler controllerExceptionHandler;
-
-    public TaskController(TaskService taskService, ControllerExceptionHandler controllerExceptionHandler) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
-        this.controllerExceptionHandler = controllerExceptionHandler;
     }
 
     @PostMapping

@@ -13,11 +13,9 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private final ControllerExceptionHandler controllerExceptionHandler;
 
-    public UserController(UserService userService, ControllerExceptionHandler controllerExceptionHandler) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.controllerExceptionHandler = controllerExceptionHandler;
     }
 
     @PostMapping

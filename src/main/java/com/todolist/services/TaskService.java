@@ -48,7 +48,7 @@ public class TaskService {
     }
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
-        Task taskToUpdate = new Task(id, taskRepository.findById(id).get().getCreatedAt(), taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()));
+        Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()));
         return taskRepository.findById(id)
                 .map(t -> taskRepository.save(taskToUpdate))
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));

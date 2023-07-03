@@ -40,7 +40,7 @@ private Instant lastUpdatedAt;
         this.color = color;
     }
 
-    public Task(Long id, Instant createdAt, String title, String description, Color color) {
+    public Task(Long id, String title, String description, Color color) {
         this.id = id;
         this.createdAt = createdAt;
         this.title = title;

@@ -9,43 +9,49 @@ import java.time.Instant;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="tasks")
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    @Column(name="Title")
+    @Column(name = "Title")
     private String title;
-    @Column(name="Description")
-
+    @Column(name = "Description")
     private String description;
-    @Column(name="Color")
+    @Column(name = "Color")
     @Enumerated(EnumType.STRING)
     private Color color;
 
-@CreatedDate
-@Column(name="CreatedAt")
-private Instant createdAt;
-@LastModifiedDate
-@Column(name="LastUpdatedAt")
-private Instant lastUpdatedAt;
+    @Column(name = "UserId")
+    private Long userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @CreatedDate
+    @Column(name = "CreatedAt")
+    private Instant createdAt;
+    @LastModifiedDate
+    @Column(name = "LastUpdatedAt")
+    private Instant lastUpdatedAt;
 
     public Task() {
     }
 
-    public Task(String title, String description, Color color) {
+    public Task(String title, String description, Color color, Long userId) {
         this.title = title;
         this.description = description;
         this.color = color;
+        this.userId = userId;
     }
 
-    public Task(Long id, String title, String description, Color color) {
+    public Task(Long id, String title, String description, Color color, Long userId) {
         this.id = id;
-        this.createdAt = createdAt;
         this.title = title;
         this.description = description;
         this.color = color;
+        this.userId = userId;
     }
 
     public Instant getCreatedAt() {
@@ -53,8 +59,9 @@ private Instant lastUpdatedAt;
     }
 
     public void setCreatedAt(Instant createdAt) {
-       this.createdAt = createdAt;
+        this.createdAt = createdAt;
     }
+
     public Instant getLastUpdatedAt() {
         return lastUpdatedAt;
     }
@@ -110,5 +117,13 @@ private Instant lastUpdatedAt;
     public void setColorAsName(String colorAsName) {
         Color color = Color.valueOf(colorAsName);
         this.color = color;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

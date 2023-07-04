@@ -30,9 +30,9 @@ public class TaskService {
     }
 
     public TaskDto saveTask(TaskDto taskDto) {
-        Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()));
+        Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()), taskDto.getUserId());
         Task task = taskRepository.save(taskToSave);
-        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName());
+        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId());
     }
 
     public List<TaskDto> getTasks(String color, String title) {
@@ -47,7 +47,7 @@ public class TaskService {
         List<Task> tasks = taskRepository.findAll(spec);
 
         return tasks.stream()
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()))
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId()))
                 .collect(Collectors.toList());
     }
 
@@ -60,10 +60,10 @@ public class TaskService {
 
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
-        Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()));
+        Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()), taskDtoToUpdate.getUserId());
         return taskRepository.findById(id)
                 .map(t -> taskRepository.save(taskToUpdate))
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId()));
     }
 
     private Task setTaskToPatch(Map<String, String> updates, Task taskToPatch){

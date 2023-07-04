@@ -25,6 +25,11 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "status 404, id not exist"));
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException i) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "status 400, page number could not be lower than 0"));
+    }
+
     private String prepareMapFromValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errorMap = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {

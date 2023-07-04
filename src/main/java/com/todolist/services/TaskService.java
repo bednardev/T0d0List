@@ -53,7 +53,8 @@ public class TaskService {
 
 
     public Page<TaskDto> getTasksAsPage(Integer pageNumber, Integer pageSize, String sortBy) {
-        Pageable taskPage = PageRequest.of(pageNumber, pageSize, Sort.by("title"));
+        Pageable taskPage = PageRequest.of(pageNumber, pageSize,
+                Sort.by(sortBy));
         return taskRepository.findAll(taskPage)
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }

@@ -4,6 +4,7 @@ import com.todolist.models.TaskDto;
 import com.todolist.services.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -33,8 +34,8 @@ public class TaskController {
     @GetMapping("/page")
     public Page<TaskDto> getTasksAsPage(@RequestParam(value ="pageNo", required = false, defaultValue = "0") Integer pageNumber,
                                         @RequestParam(value = "size", required = false, defaultValue = "1") Integer pageSize,
-                                        @RequestParam(value ="sortBy", required = false, defaultValue = "title") String sortBy) throws IllegalArgumentException {
-        return taskService.getTasksAsPage(pageNumber, pageSize, sortBy);
+                                        Sort sort) throws IllegalArgumentException {
+        return taskService.getTasksAsPage(pageNumber, pageSize, sort);
     }
 
     @PutMapping("{id}")

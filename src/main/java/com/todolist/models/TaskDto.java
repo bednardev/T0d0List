@@ -1,6 +1,7 @@
 package com.todolist.models;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class TaskDto {
 
@@ -10,7 +11,7 @@ public class TaskDto {
     private String description;
     @NotEmpty()
     private String color;
-
+    @NotNull()
     private Long userId;
 
     public TaskDto(){

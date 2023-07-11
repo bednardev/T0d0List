@@ -26,9 +26,6 @@ public class Task {
     @Column(name = "UserId")
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
     @CreatedDate
     @Column(name = "CreatedAt")
     private Instant createdAt;
@@ -39,19 +36,17 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, Color color, Long userId) {
+    public Task(String title, String description, Color color) {
         this.title = title;
         this.description = description;
         this.color = color;
-        this.userId = userId;
     }
 
-    public Task(Long id, String title, String description, Color color, Long userId) {
+    public Task(Long id, String title, String description, Color color) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
-        this.userId = userId;
     }
 
     public Instant getCreatedAt() {

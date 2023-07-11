@@ -1,6 +1,7 @@
 package com.todolist.models;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class TaskDto {
 
@@ -10,12 +11,25 @@ public class TaskDto {
     private String description;
     @NotEmpty()
     private String color;
+    @NotNull()
+    private Long userId;
+
+    public TaskDto(){
+    };
 
     public TaskDto(Long id, String title, String description, String color) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
+    }
+
+    public TaskDto(Long id, String title, String description, String color, Long userId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.color = color;
+        this.userId = userId;
     }
 
     public String getColor() {
@@ -36,5 +50,13 @@ public class TaskDto {
 
     public Long getId() {
         return id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

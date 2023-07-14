@@ -7,5 +7,6 @@ create table tasks
     Color         varchar(5)   not null,
     CreatedAt     date         null,
     LastUpdatedAt date         null
+    UserId        int          null;
 );
 

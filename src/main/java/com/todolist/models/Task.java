@@ -31,6 +31,9 @@ private Instant createdAt;
 @Column(name="LastUpdatedAt")
 private Instant lastUpdatedAt;
 
+@Column(name="Status")
+private String status;
+
     public Task() {
     }
 
@@ -42,7 +45,6 @@ private Instant lastUpdatedAt;
 
     public Task(Long id, String title, String description, Color color) {
         this.id = id;
-        this.createdAt = createdAt;
         this.title = title;
         this.description = description;
         this.color = color;
@@ -71,6 +73,13 @@ private Instant lastUpdatedAt;
         this.color = color;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getTitle() {
         return title;

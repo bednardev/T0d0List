@@ -10,12 +10,14 @@ public class TaskDto {
     private String description;
     @NotEmpty()
     private String color;
+    private String status;
 
-    public TaskDto(Long id, String title, String description, String color) {
+    public TaskDto(Long id, String title, String description, String color, String status) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
+        this.status=status;
     }
 
     public String getColor() {
@@ -24,6 +26,13 @@ public class TaskDto {
 
     public String getTitle() {
         return title;
+    }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus() {
+        this.status = status;
     }
 
     public String getDescription() {

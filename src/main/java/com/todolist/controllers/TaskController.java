@@ -51,6 +51,11 @@ public class TaskController {
                 orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
 
+    @PatchMapping("/status/{id}")
+    public TaskDto changeStatus (@PathVariable Long id){
+        return taskService.changeStatus(id);
+            }
+
     @DeleteMapping("{id}")
     public String deleteTask(@PathVariable Long id) {
         taskService.findById(id).

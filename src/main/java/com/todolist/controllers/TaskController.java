@@ -52,7 +52,7 @@ public class TaskController {
     }
 
     @PatchMapping("/status/{id}")
-    public TaskDto changeStatus (@PathVariable Long id){
+    public TaskDto changeStatus (@PathVariable Long id) throws StatusDoneException {
         return taskService.changeStatus(id);
             }
 

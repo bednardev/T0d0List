@@ -1,5 +1,6 @@
 package com.todolist.services;
 
+import com.todolist.controllers.StatusDoneException;
 import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
@@ -54,7 +55,7 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
-    public TaskDto changeStatus(Long id) {
+    public TaskDto changeStatus(Long id) throws StatusDoneException {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         switch (task.getStatus()) {
@@ -68,7 +69,7 @@ public class TaskService {
                 task.setStatus("done");
                 break;
             default:
-                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+                throw new StatusDoneException();
         }
         taskRepository.save(task);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus());

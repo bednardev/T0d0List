@@ -30,6 +30,11 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "status 400, page number could not be lower than 0"));
     }
 
+    @ExceptionHandler(StatusDoneException.class)
+    public ResponseEntity<Map<String, String>> handleStatusDoneException(StatusDoneException s) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "status 400, task status cannot be changed from done"));
+    }
+
     private String prepareMapFromValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errorMap = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {

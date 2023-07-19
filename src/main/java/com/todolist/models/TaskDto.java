@@ -10,9 +10,9 @@ public class TaskDto {
     private String description;
     @NotEmpty()
     private String color;
-    private String status;
+    private TaskStatus status;
 
-    public TaskDto(Long id, String title, String description, String color, String status) {
+    public TaskDto(Long id, String title, String description, String color, TaskStatus status) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -27,7 +27,7 @@ public class TaskDto {
     public String getTitle() {
         return title;
     }
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 

@@ -4,6 +4,7 @@ import com.todolist.controllers.StatusDoneException;
 import com.todolist.models.Color;
 import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
+import com.todolist.models.TaskStatus;
 import com.todolist.repositories.TaskRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +35,7 @@ public class TaskService {
 
     public TaskDto saveTask(TaskDto taskDto) {
         Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()));
-        taskToSave.setStatus("backlog");
+        taskToSave.setStatus(TaskStatus.BACKLOG);
         Task task = taskRepository.save(taskToSave);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus());
     }
@@ -58,19 +59,7 @@ public class TaskService {
     public TaskDto changeStatus(Long id) throws StatusDoneException {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        switch (task.getStatus()) {
-            case "backlog":
-                task.setStatus("to do");
-                break;
-            case "to do":
-                task.setStatus("in progress");
-                break;
-            case "in progress":
-                task.setStatus("done");
-                break;
-            default:
-                throw new StatusDoneException();
-        }
+        task.setStatus(task.getStatus().moveForward(task.getStatus()));
         taskRepository.save(task);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus());
     }

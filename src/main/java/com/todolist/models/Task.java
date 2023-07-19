@@ -32,7 +32,7 @@ private Instant createdAt;
 private Instant lastUpdatedAt;
 
 @Column(name="Status")
-private String status;
+private TaskStatus status;
 
     public Task() {
     }
@@ -73,11 +73,11 @@ private String status;
         this.color = color;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 

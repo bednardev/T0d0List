@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static com.todolist.repositories.specifications.TaskColorSpecification.colorLike;
 import static com.todolist.repositories.specifications.TaskTitleSpecification.titleLike;
+import static com.todolist.repositories.specifications.TaskUserIdSpecification.userIdLike;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
@@ -66,6 +67,14 @@ public class TaskService {
         return taskRepository.findAll(taskPage)
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName()));
     }
+    public List<TaskDto> getTasksForUserId(Long userId){
+        Specification<Task> spec = where(null);
+        List<Task> tasks = taskRepository.findAll(spec.and(userIdLike(userId)));
+        return tasks.stream()
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId()))
+                .collect(Collectors.toList());
+    }
+
 
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {

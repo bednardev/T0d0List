@@ -31,6 +31,11 @@ public class TaskController {
         return taskService.getTasks(color, title);
     }
 
+    @GetMapping("/usertask/{userId}")
+    public List<TaskDto> getTasksForUserId(@PathVariable Long userId){
+        return taskService.getTasksForUserId(userId);
+    }
+
     @GetMapping("/page")
     public Page<TaskDto> getTasksAsPage(@RequestParam(value ="pageNo", required = false, defaultValue = "0") Integer pageNumber,
                                         @RequestParam(value = "size", required = false, defaultValue = "1") Integer pageSize,

@@ -59,7 +59,7 @@ public class TaskService {
     public TaskDto changeStatus(Long id) throws StatusDoneException {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        task.setStatus(task.getStatus().moveForward(task.getStatus()));
+        task.setStatus(task.getStatus().moveForward());
         taskRepository.save(task);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus());
     }

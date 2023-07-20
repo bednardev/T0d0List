@@ -3,21 +3,28 @@ package com.todolist.models;
 import com.todolist.controllers.StatusDoneException;
 
 public enum TaskStatus implements TaskStatusMoveForward {
-    BACKLOG,
-    TO_DO,
-    IN_PROGRESS,
-    DONE;
-
-    @Override
-    public TaskStatus moveForward(TaskStatus taskStatus) throws StatusDoneException {
-        switch (taskStatus) {
-            case BACKLOG:
-                return TO_DO;
-            case TO_DO:
-                return IN_PROGRESS;
-            case IN_PROGRESS:
-                return DONE;
+    BACKLOG {
+        @Override
+        public TaskStatus moveForward() {
+            return TO_DO;
         }
-        throw new StatusDoneException();
+    },
+    TO_DO {
+        @Override
+        public TaskStatus moveForward() {
+            return IN_PROGRESS;
+        }
+    },
+    IN_PROGRESS {
+        @Override
+        public TaskStatus moveForward() {
+            return DONE;
+        }
+    },
+    DONE {
+        @Override
+        public TaskStatus moveForward() throws StatusDoneException {
+            throw new StatusDoneException();
+        }
     }
 }

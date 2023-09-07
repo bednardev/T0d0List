@@ -30,8 +30,8 @@ public class UserController {
 
     @DeleteMapping("{id}")
     public void deleteUser(@PathVariable Long id) {
-        userService.findById(id).
-                orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        userService.findById(id)
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         userService.deleteUser(id);
     }
 

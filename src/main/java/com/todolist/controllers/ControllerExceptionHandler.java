@@ -16,23 +16,30 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("status", "400", "errors", prepareMapFromValidationErrors(ex)));
     }
 
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleHttpClientErrorException(HttpClientErrorException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "status 404, id not exist"));
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("Error", "status 404, id not exist"));
     }
 
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException i) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "status 400, page number could not be lower than 0"));
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("Error", "status 400, page number could not be lower than 0"));
     }
 
     @ExceptionHandler(StatusDoneException.class)
     public ResponseEntity<Map<String, String>> handleStatusDoneException(StatusDoneException s) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "status 400, task status cannot be changed from done"));
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("Error", "status 400, task status cannot be changed from done"));
     }
 
     private String prepareMapFromValidationErrors(MethodArgumentNotValidException ex) {

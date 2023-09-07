@@ -26,15 +26,15 @@ public class UserService {
     public List<UserDto> getUsers(){
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(u -> users.add(u));
-        return users.
-                stream().
-                map(user -> new UserDto (user.getId(), user.getName(), user.getSurname(), user.getMail())).
-                collect(Collectors.toList());
+        return users
+                .stream()
+                .map(user -> new UserDto (user.getId(), user.getName(), user.getSurname(), user.getMail()))
+                .collect(Collectors.toList());
     }
 
     public Optional<UserDto> findById(Long id) {
-        return userRepository.findById(id).
-                map(user -> new UserDto(user.getId(),user.getName(), user.getSurname(), user.getMail()));
+        return userRepository.findById(id)
+                .map(user -> new UserDto(user.getId(),user.getName(), user.getSurname(), user.getMail()));
     }
     public void deleteUser(Long id){
         userRepository.deleteById(id);
@@ -42,8 +42,8 @@ public class UserService {
 
     public Optional<UserDto> updateUser(UserDto userDtoToUpdate, Long id){
         User userToUpdate = new User(id, userDtoToUpdate.getName(), userDtoToUpdate.getSurname(), userDtoToUpdate.getMail());
-        return userRepository.findById(id).
-                map(u -> userRepository.save(userToUpdate)).
-        map(user -> new UserDto(user.getId() ,user.getName(), user.getSurname(), user.getMail()));
+        return userRepository.findById(id)
+                .map(u -> userRepository.save(userToUpdate))
+                .map(user -> new UserDto(user.getId() ,user.getName(), user.getSurname(), user.getMail()));
     }
 }

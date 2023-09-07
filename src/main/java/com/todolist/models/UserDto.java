@@ -1,5 +1,8 @@
 package com.todolist.models;
 
+import lombok.Getter;
+
+@Getter
 public final class UserDto {
 
     private final Long id;
@@ -12,18 +15,5 @@ public final class UserDto {
         this.name = name;
         this.surname = surname;
         this.mail = mail;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public String getSurname() {
-        return surname;
-    }
-    public String getMail() {
-        return mail;
-    }
-    public Long getId() {
-        return id;
     }
 }

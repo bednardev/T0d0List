@@ -16,13 +16,13 @@ class TaskAdditionSpecification extends Specification {
         )
 
         when:
-        TaskDto savedTask = taskService.saveTask(taskDto)
+        TaskDto taskDtoToSave = taskService.saveTask(taskDto)
 
         then:
-        savedTask != null
-        savedTask.title == "Elo"
-        savedTask.description == "Melo"
-        savedTask.color = Color.BLUE
-        savedTask.taskStatus = TaskStatus.BACKLOG;
+        TaskDto savedTaskDto = taskService.findById(taskDtoToSave.getId())
+        savedTaskDto.getTitle() == "Elo"
+        savedTaskDto.getDescription() == "Melo"
+        savedTaskDto.getColor() == Color.BLUE
+        savedTaskDto.getTaskStatus() == TaskStatus.BACKLOG
     }
 }

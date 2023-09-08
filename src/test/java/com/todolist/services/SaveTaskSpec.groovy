@@ -1,8 +1,7 @@
-package com.todolist
+package com.todolist.services
 
 import com.todolist.models.TaskDto
 import com.todolist.models.TaskStatus
-import com.todolist.services.TaskService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.client.HttpClientErrorException

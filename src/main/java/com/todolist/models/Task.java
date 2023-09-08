@@ -1,8 +1,6 @@
 package com.todolist.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,32 +8,31 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
 
 @Entity
-@Getter @Setter
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="tasks")
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    @Column(name="Title")
+    @Column(name = "Title")
     private String title;
-    @Column(name="Description")
+    @Column(name = "Description")
 
     private String description;
-    @Column(name="Color")
+    @Column(name = "Color")
     @Enumerated(EnumType.STRING)
     private Color color;
 
-@CreatedDate
-@Column(name="CreatedAt")
-private Instant createdAt;
-@LastModifiedDate
-@Column(name="LastUpdatedAt")
-private Instant lastUpdatedAt;
+    @CreatedDate
+    @Column(name = "CreatedAt")
+    private Instant createdAt;
+    @LastModifiedDate
+    @Column(name = "LastUpdatedAt")
+    private Instant lastUpdatedAt;
 
-@Column(name="Status")
-private TaskStatus status;
+    @Column(name = "Status")
+    private TaskStatus status;
 
     public Task() {
     }
@@ -67,5 +64,61 @@ private TaskStatus status;
     public void setColorAsName(String colorAsName) {
         Color color = Color.valueOf(colorAsName);
         this.color = color;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public Instant getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(Instant lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }

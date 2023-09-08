@@ -1,3 +1,5 @@
+package com.todolist
+
 import com.todolist.models.TaskDto
 import com.todolist.models.TaskStatus
 import com.todolist.services.TaskService
@@ -8,11 +10,7 @@ import spock.lang.Specification
 
 class SaveTaskSpec extends Specification {
 
-    final TaskService taskService
-
-    SaveTaskSpec(TaskService taskService) {
-        this.taskService = taskService
-    }
+    TaskService taskService
 
     def "should save new task"()
 

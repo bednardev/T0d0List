@@ -11,6 +11,9 @@ class SaveTaskSpec extends Specification {
 
     TaskService taskService
 
+    def setup(){
+        taskService = Mock(TaskService)
+    }
     def "should save new task"()
 
     {

@@ -9,35 +9,20 @@ import spock.lang.Specification
 
 class SaveTaskSpec extends Specification {
 
-    TaskService taskService
-
-    def setup() {
-        taskService = Mock(TaskService)
-        taskService.saveTask(_) >> { TaskDto taskDto ->
-            return taskDto
-        }
-
-        taskService.findById(_) >> { Long taskId ->
-            if (true) {
-                Optional.of(new TaskDto())
-            } else {
-                Optional.empty()
-            }
-        }
-    }
+    TaskService taskService = Mock(TaskService.class)
 
     def "should save new task"()
 
     {
         given:
-        TaskDto taskDto = new TaskDto()
+        def taskDto = new TaskDto()
         taskDto.setTitle("Task")
         taskDto.setDescription("Task test")
         taskDto.setColor("BLUE")
 
         when:
-        TaskDto taskDtoToSave = taskService.saveTask(taskDto)
-        TaskDto savedTaskDto = taskService.findById(taskDtoToSave.getId())
+        def taskDtoToSave = taskService.saveTask(taskDto)
+        def savedTaskDto = taskService.findById(taskDtoToSave.getId())
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
 
         then:

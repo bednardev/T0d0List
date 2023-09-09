@@ -2,6 +2,7 @@ package com.todolist.services
 
 import com.todolist.models.TaskDto
 import com.todolist.models.TaskStatus
+import com.todolist.repositories.TaskRepository
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.client.HttpClientErrorException
@@ -9,7 +10,8 @@ import spock.lang.Specification
 
 class SaveTaskSpec extends Specification {
 
-    TaskService taskService = Mock(TaskService.class)
+    TaskRepository taskRepository = Mock(TaskRepository.class)
+    TaskService taskService = new TaskService(taskRepository)
 
     def "should save new task"()
 

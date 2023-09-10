@@ -16,4 +16,11 @@ public class TaskDto {
     @NotEmpty()
     private String color;
     private TaskStatus status;
+
+    public TaskDto(String title, String description, String color) {
+        this.title = title;
+        this.description = description;
+        this.color = color;
+    }
+
 }

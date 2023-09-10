@@ -1,11 +1,11 @@
 package com.todolist.services
 
+import com.todolist.models.Color
+import com.todolist.models.Task
 import com.todolist.models.TaskDto
 import com.todolist.models.TaskStatus
 import com.todolist.repositories.TaskRepository
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
-import org.springframework.web.client.HttpClientErrorException
 import spock.lang.Specification
 
 class SaveTaskSpec extends Specification {
@@ -17,21 +17,18 @@ class SaveTaskSpec extends Specification {
 
     {
         given:
-        def taskDto = new TaskDto()
-        taskDto.setTitle("Task")
-        taskDto.setDescription("Task test")
-        taskDto.setColor("BLUE")
-
+        def taskDto = new TaskDto ('Task', 'Task test', 'BLUE')
+        def expectedTask = new Task(5, 'Task', 'Task test', Color.BLUE, TaskStatus.BACKLOG)
         when:
-        def taskDtoToSave = taskService.saveTask(taskDto)
-        def savedTaskDto = taskService.findById(taskDtoToSave.getId())
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
+        taskService.saveTask(taskDto)
 
         then:
-        savedTaskDto.getTitle() == "Task"
-        savedTaskDto.getDescription() == "Task test"
-        savedTaskDto.getColor() == "BLUE"
-        savedTaskDto.getStatus() == TaskStatus.BACKLOG
+        1 * taskRepository.save(_) >> { Task actualTask ->
+            assert actualTask.getTitle() == expectedTask.getTitle()
+            assert actualTask.getDescription() == expectedTask.getDescription()
+            assert actualTask.getColor() == expectedTask.getColor()
+            assert actualTask.getStatus() == expectedTask.getStatus()
+        }
     }
 
     def "should throw MethodArgumentNotValidException empty title"() {

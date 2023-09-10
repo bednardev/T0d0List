@@ -50,6 +50,15 @@ public class Task {
         this.color = color;
     }
 
+    public Task(Long id, String title, String description, Color color, TaskStatus status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.color = color;
+        this.status = status;
+    }
+
+
     public String toString() {
         return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
     }

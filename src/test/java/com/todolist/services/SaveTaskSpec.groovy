@@ -19,9 +19,9 @@ class SaveTaskSpec extends Specification {
         given:
         def taskDto = new TaskDto ('Task', 'Task test', 'BLUE')
         def expectedTask = new Task('Task', 'Task test', Color.BLUE, TaskStatus.BACKLOG)
-        taskRepository.save(_) >> new Task()
 
         when:
+   //     taskRepository.save(_ as Task) >> new Task(_ as Long,_ as String,_ as String,_ as Color,_ as TaskStatus)
         taskService.saveTask(taskDto)
 
         then:

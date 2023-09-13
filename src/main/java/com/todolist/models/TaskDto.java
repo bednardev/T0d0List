@@ -1,6 +1,7 @@
 package com.todolist.models;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 
 public record TaskDto(
@@ -10,5 +11,7 @@ public record TaskDto(
         String description,
         @NotEmpty()
         String color,
-        TaskStatus status) {
+        TaskStatus status,
+        @NotNull()
+        Long userId) {
 }

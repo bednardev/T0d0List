@@ -31,33 +31,33 @@ public class Task {
     @CreatedDate
     @Column(name = "CreatedAt")
     private Instant createdAt;
+
+    @Column(name = "UserId")
+    private Long userId;
     @LastModifiedDate
     @Column(name = "LastUpdatedAt")
     private Instant lastUpdatedAt;
     @Column(name = "Status")
     private TaskStatus status;
 
-    public Task(String title, String description, Color color) {
+    public Task() {
+    }
+
+    public Task(String title, String description, Color color, Long userId) {
         this.title = title;
         this.description = description;
         this.color = color;
+        this.userId = userId;
     }
 
-    public Task(Long id, String title, String description, Color color) {
+    public Task(Long id, String title, String description, Color color, Long userId, TaskStatus status) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
-    }
-
-    public Task(Long id, String title, String description, Color color, TaskStatus status) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.color = color;
+        this.userId = userId;
         this.status = status;
     }
-
 
     public String toString() {
         return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
@@ -73,6 +73,12 @@ public class Task {
     public void setColorAsName(String colorAsName) {
         Color color = Color.valueOf(colorAsName);
         this.color = color;
+    }
+    public String getStatusAsName(){
+        if (status != null){
+            return status.name();
+        }
+        return "UNDEFINED";
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/tasks")
+@RequestMapping("tasks")
 @RestController
 public class TaskController {
     private final TaskService taskService;
@@ -31,7 +31,7 @@ public class TaskController {
         return taskService.getTasks(color, title);
     }
 
-    @GetMapping("/page")
+    @GetMapping("page")
     public Page<TaskDto> getTasksAsPage(@RequestParam(value ="pageNo", required = false, defaultValue = "0") Integer pageNumber,
                                         @RequestParam(value = "size", required = false, defaultValue = "1") Integer pageSize,
                                         @RequestParam(value = "sort", required = false, defaultValue = "title") String sort,

@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,13 +27,17 @@ public class User {
     private String surname;
     @Column(name = "mail")
     private String mail;
-
     @CreatedDate
     @Column(name = "CreatedAt")
     private Instant createdAt;
     @Column(name = "LastUpdatedAt")
     @LastModifiedDate
     private Instant lastUpdatedAt;
+
+    @OneToMany
+    @JoinColumn(name="UserId")
+    private List<Task> tasks;
+
 
     public User(String name, String surname, String mail) {
         this.name = name;

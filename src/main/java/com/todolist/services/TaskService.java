@@ -6,6 +6,7 @@ import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.models.TaskStatus;
 import com.todolist.repositories.TaskRepository;
+import com.todolist.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,22 +23,25 @@ import java.util.stream.Collectors;
 
 import static com.todolist.repositories.specifications.TaskColorSpecification.colorLike;
 import static com.todolist.repositories.specifications.TaskTitleSpecification.titleLike;
+import static com.todolist.repositories.specifications.TaskUserIdSpecification.userIdLike;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
     public TaskDto saveTask(TaskDto taskDto) {
-        Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()));
+        Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()), taskDto.getUserId());
         taskToSave.setStatus(TaskStatus.BACKLOG);
         Task task = taskRepository.save(taskToSave);
-        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus());
+        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus());
     }
 
     public List<TaskDto> getTasks(String color, String title) {
@@ -52,7 +56,7 @@ public class TaskService {
         List<Task> tasks = taskRepository.findAll(spec);
 
         return tasks.stream()
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus()))
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()))
                 .collect(Collectors.toList());
     }
 
@@ -61,22 +65,30 @@ public class TaskService {
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         task.setStatus(task.getStatus().moveForward());
         taskRepository.save(task);
-        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus());
+        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus());
+    }
+
+    public List<TaskDto> getTasksForUserId(Long userId) {
+        Specification<Task> spec = where(null);
+        List<Task> tasks = taskRepository.findAll(spec.and(userIdLike(userId)));
+        return tasks.stream()
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()))
+                .collect(Collectors.toList());
     }
 
 
     public Page<TaskDto> getTasksAsPage(Integer pageNumber, Integer pageSize, String sort, Sort.Direction direction) {
         Pageable taskPage = PageRequest.of(pageNumber, pageSize, Sort.by(direction, sort));
         return taskRepository.findAll(taskPage)
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
     }
 
 
     public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
-        Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()));
+        Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()), taskDtoToUpdate.getUserId());
         return taskRepository.findById(id)
                 .map(t -> taskRepository.save(taskToUpdate))
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
     }
 
     private Task setTaskToPatch(Map<String, String> updates, Task taskToPatch) {
@@ -96,12 +108,12 @@ public class TaskService {
     public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
         return taskRepository.findById(id)
                 .map(t -> setTaskToPatch(updates, t))
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
     }
 
     public Optional<TaskDto> findById(Long id) {
         return taskRepository.findById(id)
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
     }
 
     public String deleteTask(Long id) {

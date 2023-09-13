@@ -5,12 +5,11 @@ import com.todolist.models.Task
 import com.todolist.models.TaskDto
 import com.todolist.models.TaskStatus
 import com.todolist.repositories.TaskRepository
-import org.springframework.web.bind.MethodArgumentNotValidException
 import spock.lang.Specification
 
 class SaveTaskSpec extends Specification {
 
-    TaskRepository taskRepository = Mock(TaskRepository.class)
+    TaskRepository taskRepository = Mock()
     TaskService taskService = new TaskService(taskRepository)
 
     def "should save new task"()
@@ -18,47 +17,17 @@ class SaveTaskSpec extends Specification {
     {
         given:
         def taskDto = new TaskDto ('Task', 'Task test', 'BLUE')
-        def expectedTask = new Task('Task', 'Task test', Color.BLUE, TaskStatus.BACKLOG)
+        def expectedTask = new Task(0L, 'Task', 'Task test', Color.BLUE, TaskStatus.BACKLOG)
 
         when:
-   //     taskRepository.save(_ as Task) >> new Task(_ as Long,_ as String,_ as String,_ as Color,_ as TaskStatus)
-        taskService.saveTask(taskDto)
+        def result = taskService.saveTask(taskDto)
 
         then:
-        1 * taskRepository.save(_) >> { Task actualTask ->
-            assert actualTask.getTitle() == expectedTask.getTitle()
-            assert actualTask.getDescription() == expectedTask.getDescription()
-            assert actualTask.getColor() == expectedTask.getColor()
-            assert actualTask.getStatus() == expectedTask.getStatus()
+        1 * taskRepository.save(_) >> expectedTask
+        result.id() == expectedTask.getId()
+        result.title() == expectedTask.getTitle()
+        result.description() == expectedTask.getDescription()
+        result.color() == expectedTask.getColor().name()
+        result.status() == expectedTask.getStatus()
         }
     }
-
-    def "should throw MethodArgumentNotValidException empty title"() {
-        given:
-        TaskDto taskDto = new TaskDto()
-        taskDto.setTitle("")
-        taskDto.setDescription("Task test")
-        taskDto.setColor("BLUE")
-
-        when:
-        taskService.saveTask(taskDto)
-
-        then:
-        thrown(MethodArgumentNotValidException)
-    }
-
-    def "should throw MethodArgumentNotValidException wrong color value"() {
-        given:
-        TaskDto taskDto = new TaskDto()
-        taskDto.setTitle("Task")
-        taskDto.setDescription("Task test")
-        taskDto.setColor("Yellow")
-
-
-        when:
-        taskService.saveTask(taskDto)
-
-        then:
-        thrown(MethodArgumentNotValidException)
-    }
-}

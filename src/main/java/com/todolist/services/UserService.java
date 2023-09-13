@@ -18,7 +18,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
     public UserDto saveUser (UserDto userDto){
-        User userToSave = new User(userDto.getName(), userDto.getSurname(), userDto.getMail());
+        User userToSave = new User(userDto.name(), userDto.surname(), userDto.mail());
         User user = userRepository.save(userToSave);
         return new UserDto(user.getId(), user.getName(), user.getSurname(), user.getMail());
     }
@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public Optional<UserDto> updateUser(UserDto userDtoToUpdate, Long id){
-        User userToUpdate = new User(id, userDtoToUpdate.getName(), userDtoToUpdate.getSurname(), userDtoToUpdate.getMail());
+        User userToUpdate = new User(id, userDtoToUpdate.name(), userDtoToUpdate.surname(), userDtoToUpdate.mail());
         return userRepository.findById(id)
                 .map(u -> userRepository.save(userToUpdate))
                 .map(user -> new UserDto(user.getId() ,user.getName(), user.getSurname(), user.getMail()));

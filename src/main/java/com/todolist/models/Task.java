@@ -18,19 +18,16 @@ public class Task {
     @Column(name = "Title")
     private String title;
     @Column(name = "Description")
-
     private String description;
     @Column(name = "Color")
     @Enumerated(EnumType.STRING)
     private Color color;
-
     @CreatedDate
     @Column(name = "CreatedAt")
     private Instant createdAt;
     @LastModifiedDate
     @Column(name = "LastUpdatedAt")
     private Instant lastUpdatedAt;
-
     @Column(name = "Status")
     private TaskStatus status;
 

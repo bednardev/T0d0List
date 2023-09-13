@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 import static com.todolist.repositories.specifications.TaskColorSpecification.colorLike;
 import static com.todolist.repositories.specifications.TaskTitleSpecification.titleLike;
-import static com.todolist.repositories.specifications.TaskUserIdSpecification.userIdLike;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
@@ -108,4 +107,15 @@ public class TaskService {
         taskRepository.deleteById(id);
         return "task with id: " + id + " successfully deleted";
     }
+
+    public String getUsernameForTask(Long id) {
+        Long userId = taskRepository.findById(id)
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
+                .getUserId();
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
+                .getName();
+    }
+
+
 }

@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 import static com.todolist.repositories.specifications.TaskColorSpecification.colorLike;
 import static com.todolist.repositories.specifications.TaskTitleSpecification.titleLike;
-import static com.todolist.repositories.specifications.TaskUserIdSpecification.userIdLike;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
@@ -68,15 +67,6 @@ public class TaskService {
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus());
     }
 
-    public List<TaskDto> getTasksForUserId(Long userId) {
-        Specification<Task> spec = where(null);
-        List<Task> tasks = taskRepository.findAll(spec.and(userIdLike(userId)));
-        return tasks.stream()
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()))
-                .collect(Collectors.toList());
-    }
-
-
     public Page<TaskDto> getTasksAsPage(Integer pageNumber, Integer pageSize, String sort, Sort.Direction direction) {
         Pageable taskPage = PageRequest.of(pageNumber, pageSize, Sort.by(direction, sort));
         return taskRepository.findAll(taskPage)
@@ -120,4 +110,15 @@ public class TaskService {
         taskRepository.deleteById(id);
         return "task with id: " + id + " successfully deleted";
     }
+
+    public String getUsernameForTask(Long id) {
+        Long userId = taskRepository.findById(id)
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
+                .getUserId();
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
+                .getName();
+    }
+
+
 }

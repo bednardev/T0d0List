@@ -126,6 +126,7 @@ public class Task {
         Color color = Color.valueOf(colorAsName);
         this.color = color;
     }
+
     public Long getUserId() {
         return userId;
     }

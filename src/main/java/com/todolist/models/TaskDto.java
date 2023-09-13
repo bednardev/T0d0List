@@ -2,7 +2,13 @@ package com.todolist.models;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TaskDto {
 
     private Long id;
@@ -13,19 +19,7 @@ public class TaskDto {
     private String color;
     @NotNull()
     private Long userId;
-
     private TaskStatus status;
-
-    public TaskDto() {
-    }
-
-    public TaskDto(Long id, String title, String description, String color, Long userId, TaskStatus status) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.color = color;
-        this.userId = userId;
-    }
 
     public String getColor() {
         return color;

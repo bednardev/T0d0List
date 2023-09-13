@@ -39,6 +39,10 @@ public class TaskController {
         return taskService.getTasksAsPage(pageNumber, pageSize, sort, direction);
     }
 
+    @GetMapping("{id}")
+    public String getUsernameForTask(@PathVariable Long id){
+        return taskService.getUsernameForTask(id);
+    }
     @PutMapping("{id}")
     public TaskDto updateTask(@RequestBody TaskDto taskDtoToUpdate, @PathVariable Long id) {
         return taskService.updateTask(taskDtoToUpdate, id).

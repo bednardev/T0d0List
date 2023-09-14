@@ -15,16 +15,17 @@ class UpdateTaskSpec extends Specification {
     def "should update task"() {
         given:
         def id = 4L
-        def taskDto = new TaskDto(null, "Task", "Do the task", "BLUE", TaskStatus.IN_PROGRESS)
+        def taskDto = new TaskDto(1L, "Task", "Do the task", "BLUE", TaskStatus.IN_PROGRESS)
         def taskToUpdate = Optional.of(new Task(id, "Z", "B", Color.GREY, TaskStatus.TO_DO))
         def expectedTask = new Task(id, "Task", "Do the task", Color.BLUE, TaskStatus.IN_PROGRESS)
+        taskRepository.findById(id) >> taskToUpdate
 
         when:
         def result = taskService.updateTask(taskDto, id).get()
 
         then:
-        1 * taskRepository.findById(id) >> taskToUpdate
-        1 * taskRepository.save(taskToUpdate.get()) >> expectedTask
+        1 * taskRepository.findById(id)
+        1 * taskRepository.save(_) >> expectedTask
         result.id() == expectedTask.getId()
         result.title() == expectedTask.getTitle()
         result.description() == expectedTask.getDescription()

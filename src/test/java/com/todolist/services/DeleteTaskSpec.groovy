@@ -11,12 +11,13 @@ class DeleteTaskSpec extends Specification {
     def "should delete task with given id"() {
 
         given:
-        def id = 5
+        def id = 5L
 
         when:
         def result = taskService.deleteTask(id)
 
         then:
+        1* taskRepository.deleteById(id)
         result == 'task with id: ' + id + ' successfully deleted'
     }
 }

@@ -29,7 +29,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Color color;
     @CreatedDate
-    @Column(name = "CreatedAt")
+    @Column(name = "CreatedAt",updatable=false)
     private Instant createdAt;
 
     @Column(name = "UserId")

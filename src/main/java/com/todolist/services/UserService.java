@@ -60,7 +60,7 @@ public class UserService {
         Specification<Task> spec = where(null);
         List<Task> tasks = taskRepository.findAll(spec.and(userIdLike(userId)));
         return tasks.stream()
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()))
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()))
                 .collect(Collectors.toList());
     }
 

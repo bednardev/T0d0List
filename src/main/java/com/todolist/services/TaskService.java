@@ -52,7 +52,7 @@ public class TaskService {
         List<Task> tasks = taskRepository.findAll(spec);
 
         return tasks.stream()
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()))
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()))
                 .collect(Collectors.toList());
     }
 
@@ -61,13 +61,13 @@ public class TaskService {
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         task.setStatus(task.getStatus().moveForward());
         taskRepository.save(task);
-        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus());
+        return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName());
     }
 
     public Page<TaskDto> getTasksAsPage(Integer pageNumber, Integer pageSize, String sort, Sort.Direction direction) {
         Pageable taskPage = PageRequest.of(pageNumber, pageSize, Sort.by(direction, sort));
         return taskRepository.findAll(taskPage)
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()));
     }
 
 
@@ -75,7 +75,7 @@ public class TaskService {
         Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()), taskDtoToUpdate.getUserId());
         return taskRepository.findById(id)
                 .map(t -> taskRepository.save(taskToUpdate))
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()));
     }
 
     private Task setTaskToPatch(Map<String, String> updates, Task taskToPatch) {
@@ -95,12 +95,12 @@ public class TaskService {
     public Optional<TaskDto> patchTask(Map<String, String> updates, Long id) {
         return taskRepository.findById(id)
                 .map(t -> setTaskToPatch(updates, t))
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()));
     }
 
     public Optional<TaskDto> findById(Long id) {
         return taskRepository.findById(id)
-                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatus()));
+                .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()));
     }
 
     public String deleteTask(Long id) {

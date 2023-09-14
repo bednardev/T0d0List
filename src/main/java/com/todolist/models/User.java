@@ -99,4 +99,11 @@ public class User {
         return " id: " + id + " name: " + name + " surname: " + surname + " mail: " + mail;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

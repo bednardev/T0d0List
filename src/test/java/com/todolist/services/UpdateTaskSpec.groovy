@@ -7,27 +7,27 @@ import com.todolist.models.TaskStatus
 import com.todolist.repositories.TaskRepository
 import spock.lang.Specification
 
-class SaveTaskSpec extends Specification {
+class UpdateTaskSpec extends Specification {
 
     TaskRepository taskRepository = Mock()
     def taskService = new TaskService(taskRepository)
 
-    def "should save new task"()
-
-    {
+    def "should update task"() {
         given:
-        def taskDto = new TaskDto(null, 'Task', 'Task test', 'BLUE', null)
-        def expectedTask = new Task(0L, 'Task', 'Task test', Color.BLUE, TaskStatus.BACKLOG)
+        def id = 0L
+        def taskDto = new TaskDto(null, "Task", "Do the task", "BLUE", TaskStatus.IN_PROGRESS)
+        def expectedTask = new Task(id, "Task", "Do the task", Color.BLUE, TaskStatus.IN_PROGRESS)
 
         when:
-        def result = taskService.saveTask(taskDto)
+        def result = taskService.updateTask(taskDto, id)
 
         then:
+        1 * taskRepository.findById(id)
         1 * taskRepository.save(_) >> expectedTask
         result.id() == expectedTask.getId()
         result.title() == expectedTask.getTitle()
         result.description() == expectedTask.getDescription()
         result.color() == expectedTask.getColor().name()
         result.status() == expectedTask.getStatus()
-        }
     }
+}

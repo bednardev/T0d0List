@@ -6,7 +6,6 @@ import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.models.TaskStatus;
 import com.todolist.repositories.TaskRepository;
-import com.todolist.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -107,15 +106,4 @@ public class TaskService {
         taskRepository.deleteById(id);
         return "task with id: " + id + " successfully deleted";
     }
-
-    public String getUsernameForTask(Long id) {
-        Long userId = taskRepository.findById(id)
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
-                .getUserId();
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND))
-                .getName();
-    }
-
-
 }

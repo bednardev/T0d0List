@@ -25,7 +25,7 @@ public class Task {
     private Color color;
 
     @CreatedDate
-    @Column(name = "CreatedAt")
+    @Column(name = "CreatedAt",updatable=false)
     private Instant createdAt;
 
     @Column(name = "UserId")
@@ -126,7 +126,12 @@ public class Task {
         Color color = Color.valueOf(colorAsName);
         this.color = color;
     }
-
+    public String getStatusAsName(){
+        if (status != null){
+            return status.name();
+        }
+        return "UNDEFINED";
+    }
     public Long getUserId() {
         return userId;
     }

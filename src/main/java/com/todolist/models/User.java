@@ -22,14 +22,13 @@ public class User {
     @Column(name = "mail")
     private String mail;
     @CreatedDate
-    @Column(name = "CreatedAt")
+    @Column(name = "CreatedAt", updatable = false)
     private Instant createdAt;
     @Column(name = "LastUpdatedAt")
     @LastModifiedDate
     private Instant lastUpdatedAt;
 
-    @OneToMany
-    @JoinColumn(name="UserId")
+    @OneToMany(mappedBy = "userId")
     private List<Task> tasks;
 
     public User() {

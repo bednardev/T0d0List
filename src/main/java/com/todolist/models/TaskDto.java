@@ -19,7 +19,7 @@ public class TaskDto {
     private String color;
     @NotNull()
     private Long userId;
-    private TaskStatus status;
+    private String status;
 
     public String getColor() {
         return color;
@@ -29,7 +29,7 @@ public class TaskDto {
         return title;
     }
 
-    public TaskStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 

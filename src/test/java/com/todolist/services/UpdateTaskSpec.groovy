@@ -14,13 +14,13 @@ class UpdateTaskSpec extends Specification {
 
     def "should update task"() {
         given:
-        def id = 1L
+        def id = 4L
         def taskDto = new TaskDto(null, "Task", "Do the task", "BLUE", TaskStatus.IN_PROGRESS)
         def taskToUpdate = Optional.of(new Task(id, "Z", "B", Color.GREY, TaskStatus.TO_DO))
         def expectedTask = new Task(id, "Task", "Do the task", Color.BLUE, TaskStatus.IN_PROGRESS)
 
         when:
-        def result = taskService.updateTask(taskDto, id)
+        def result = taskService.updateTask(taskDto, id).get()
 
         then:
         1 * taskRepository.findById(id) >> taskToUpdate

@@ -1,6 +1,5 @@
 package com.todolist.services;
 
-import com.todolist.models.Task;
 import com.todolist.models.TaskDto;
 import com.todolist.models.User;
 import com.todolist.models.UserDto;
@@ -15,9 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.todolist.repositories.specifications.TaskUserIdSpecification.userIdLike;
-import static org.springframework.data.jpa.domain.Specification.where;
-
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -27,8 +23,9 @@ public class UserService {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
     }
-    public UserDto saveUser (UserDto userDto){
-        User userToSave = new User(userDto.name(), userDto.surname(), userDto.mail());
+
+    public UserDto saveUser(UserDto userDto) {
+        User userToSave = new User(userDto.getName(), userDto.getSurname(), userDto.getMail());
         User user = userRepository.save(userToSave);
         return new UserDto(user.getId(), user.getName(), user.getSurname(), user.getMail());
     }
@@ -52,7 +49,7 @@ public class UserService {
     }
 
     public Optional<UserDto> updateUser(UserDto userDtoToUpdate, Long id) {
-        User userToUpdate = new User(id, userDtoToUpdate.name(), userDtoToUpdate.surname(), userDtoToUpdate.mail());
+        User userToUpdate = new User(id, userDtoToUpdate.getName(), userDtoToUpdate.getSurname(), userDtoToUpdate.getMail());
         return userRepository.findById(id)
                 .map(u -> userRepository.save(userToUpdate))
                 .map(user -> new UserDto(user.getId(), user.getName(), user.getSurname(), user.getMail()));
@@ -66,6 +63,4 @@ public class UserService {
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()))
                 .collect(Collectors.toList());
     }
-
-
 }

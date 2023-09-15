@@ -34,7 +34,8 @@ public class TaskService {
     }
 
     public TaskDto saveTask(TaskDto taskDto) {
-        Task taskToSave = new Task(taskDto.title(), taskDto.description(), Color.valueOf(taskDto.color().toUpperCase()), taskDto.userId(), TaskStatus.valueOf(taskDto.status()));
+        Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()), taskDto.getUserId());
+        taskToSave.setStatus(TaskStatus.BACKLOG);
         Task task = taskRepository.save(taskToSave);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName());
     }

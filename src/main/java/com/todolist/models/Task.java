@@ -1,18 +1,12 @@
 package com.todolist.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "tasks")
@@ -24,10 +18,12 @@ public class Task {
     @Column(name = "Title")
     private String title;
     @Column(name = "Description")
+
     private String description;
     @Column(name = "Color")
     @Enumerated(EnumType.STRING)
     private Color color;
+
     @CreatedDate
     @Column(name = "CreatedAt",updatable=false)
     private Instant createdAt;
@@ -37,6 +33,7 @@ public class Task {
     @LastModifiedDate
     @Column(name = "LastUpdatedAt")
     private Instant lastUpdatedAt;
+
     @Column(name = "Status")
     private TaskStatus status;
 
@@ -50,13 +47,68 @@ public class Task {
         this.userId = userId;
     }
 
-    public Task(Long id, String title, String description, Color color, Long userId, TaskStatus status) {
+    public Task(Long id, String title, String description, Color color, Long userId) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
         this.userId = userId;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(Instant lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String toString() {
@@ -80,5 +132,11 @@ public class Task {
         }
         return "UNDEFINED";
     }
+    public Long getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

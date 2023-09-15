@@ -1,7 +1,9 @@
 package com.todolist.controllers;
 
 
+import com.todolist.models.TaskDto;
 import com.todolist.models.UserDto;
+import com.todolist.services.TaskService;
 import com.todolist.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +15,21 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final TaskService taskService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TaskService taskService) {
         this.userService = userService;
+        this.taskService = taskService;
     }
 
     @PostMapping
     public UserDto saveUser(@RequestBody UserDto userDto) {
         return userService.saveUser(userDto);
+    }
+
+    @GetMapping("{userId}/tasks")
+    public List<TaskDto> getTasksForUserId(@PathVariable Long userId){
+        return userService.getTasksForUserId(userId);
     }
 
     @GetMapping

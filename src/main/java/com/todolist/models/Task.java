@@ -25,8 +25,11 @@ public class Task {
     private Color color;
 
     @CreatedDate
-    @Column(name = "CreatedAt")
+    @Column(name = "CreatedAt",updatable=false)
     private Instant createdAt;
+
+    @Column(name = "UserId")
+    private Long userId;
     @LastModifiedDate
     @Column(name = "LastUpdatedAt")
     private Instant lastUpdatedAt;
@@ -37,57 +40,35 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, Color color) {
+    public Task(String title, String description, Color color, Long userId) {
         this.title = title;
         this.description = description;
         this.color = color;
+        this.userId = userId;
     }
 
-    public Task(Long id, String title, String description, Color color) {
+    public Task(Long id, String title, String description, Color color, Long userId) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color;
+        this.userId = userId;
     }
 
-    public String toString() {
-        return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public String getColorAsName() {
-        if (color != null) {
-            return color.name();
-        }
-        return "UNDEFINED";
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setColorAsName(String colorAsName) {
-        Color color = Color.valueOf(colorAsName);
-        this.color = color;
+    public Instant getLastUpdatedAt() {
+        return lastUpdatedAt;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLastUpdatedAt(Instant lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
     }
 
     public Color getColor() {
@@ -106,19 +87,56 @@ public class Task {
         this.status = status;
     }
 
-    public Instant getLastUpdatedAt() {
-        return lastUpdatedAt;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLastUpdatedAt(Instant lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String toString() {
+        return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
+    }
+
+    public String getColorAsName() {
+        if (color != null) {
+            return color.name();
+        }
+        return "UNDEFINED";
+    }
+
+    public void setColorAsName(String colorAsName) {
+        Color color = Color.valueOf(colorAsName);
+        this.color = color;
+    }
+    public String getStatusAsName(){
+        if (status != null){
+            return status.name();
+        }
+        return "UNDEFINED";
+    }
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

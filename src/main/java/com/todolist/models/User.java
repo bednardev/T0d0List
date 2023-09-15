@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,13 +21,15 @@ public class User {
     private String surname;
     @Column(name = "mail")
     private String mail;
-
     @CreatedDate
-    @Column(name = "CreatedAt")
+    @Column(name = "CreatedAt", updatable = false)
     private Instant createdAt;
     @Column(name = "LastUpdatedAt")
     @LastModifiedDate
     private Instant lastUpdatedAt;
+
+    @OneToMany(mappedBy = "userId")
+    private List<Task> tasks;
 
     public User() {
     }
@@ -44,14 +47,6 @@ public class User {
         this.mail = mail;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -64,20 +59,16 @@ public class User {
         return surname;
     }
 
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public String getMail() {
         return mail;
     }
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String toString() {
-        return " id: " + id + " name: " + name + " surname: " + surname + " mail: " + mail;
     }
 
     public Instant getCreatedAt() {
@@ -94,5 +85,25 @@ public class User {
 
     public void setLastUpdatedAt(Instant lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String toString() {
+        return " id: " + id + " name: " + name + " surname: " + surname + " mail: " + mail;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

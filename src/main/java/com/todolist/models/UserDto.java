@@ -1,19 +1,10 @@
 package com.todolist.models;
 
-import lombok.Getter;
+public record UserDto
 
-@Getter
-public final class UserDto {
+        (Long id,
+         String name,
+         String surname,
+         String mail) {
 
-    private final Long id;
-    private final String name;
-    private final String surname;
-    private final String mail;
-
-    public UserDto(Long id, String name, String surname, String mail) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.mail = mail;
-    }
 }

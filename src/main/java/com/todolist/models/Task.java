@@ -1,12 +1,17 @@
 package com.todolist.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
+
+@Getter
+@Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "tasks")
@@ -54,63 +59,6 @@ public class Task {
         this.color = color;
         this.userId = userId;
     }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getLastUpdatedAt() {
-        return lastUpdatedAt;
-    }
-
-    public void setLastUpdatedAt(Instant lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
     public String toString() {
         return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
     }
@@ -126,17 +74,10 @@ public class Task {
         Color color = Color.valueOf(colorAsName);
         this.color = color;
     }
-    public String getStatusAsName(){
-        if (status != null){
+    public String getStatusAsName() {
+        if (status != null) {
             return status.name();
         }
         return "UNDEFINED";
-    }
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }

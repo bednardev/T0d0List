@@ -16,8 +16,8 @@ class SaveTaskSpec extends Specification {
 
     {
         given:
-        def taskDto = new TaskDto(null, 'Task', 'Task test', 'BLUE', null)
-        def expectedTask = new Task(0L, 'Task', 'Task test', Color.BLUE, TaskStatus.BACKLOG)
+        def taskDto = new TaskDto(null, 'Task', 'Task test', 'BLUE', 4L, null)
+        def expectedTask = new Task(0L, 'Task', 'Task test', Color.BLUE, 4L, TaskStatus.BACKLOG)
 
         when:
         def result = taskService.saveTask(taskDto)
@@ -28,6 +28,6 @@ class SaveTaskSpec extends Specification {
         result.title() == expectedTask.getTitle()
         result.description() == expectedTask.getDescription()
         result.color() == expectedTask.getColor().name()
-        result.status() == expectedTask.getStatus()
+        result.status() == expectedTask.getStatus().name()
         }
     }

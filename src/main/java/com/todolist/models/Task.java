@@ -59,6 +59,14 @@ public class Task {
         this.color = color;
         this.userId = userId;
     }
+    public Task(Long id, String title, String description, Color color, Long userId, TaskStatus status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.color = color;
+        this.userId = userId;
+        this.status = status;
+    }
     public String toString() {
         return " id: " + id + " title: " + title + " description: " + description + " color: " + color;
     }

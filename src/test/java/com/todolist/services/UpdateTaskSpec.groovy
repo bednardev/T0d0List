@@ -15,9 +15,9 @@ class UpdateTaskSpec extends Specification {
     def "should update task"() {
         given:
         def id = 4L
-        def taskDto = new TaskDto(1L, "Task", "Do the task", "BLUE", TaskStatus.IN_PROGRESS)
-        def taskToUpdate = Optional.of(new Task(id, "Z", "B", Color.GREY, TaskStatus.TO_DO))
-        def expectedTask = new Task(id, "Task", "Do the task", Color.BLUE, TaskStatus.IN_PROGRESS)
+        def taskDto = new TaskDto(1L, "Task", "Do the task", "BLUE", 4L, "IN_PROGRESS")
+        def taskToUpdate = Optional.of(new Task(id, "Z", "B", Color.GREY, 3L, TaskStatus.TO_DO))
+        def expectedTask = new Task(id, "Task", "Do the task", Color.BLUE, 4L, TaskStatus.IN_PROGRESS)
         taskRepository.findById(id) >> taskToUpdate
 
         when:
@@ -30,6 +30,6 @@ class UpdateTaskSpec extends Specification {
         result.title() == expectedTask.getTitle()
         result.description() == expectedTask.getDescription()
         result.color() == expectedTask.getColor().name()
-        result.status() == expectedTask.getStatus()
+        result.status() == expectedTask.getStatus().name()
     }
 }

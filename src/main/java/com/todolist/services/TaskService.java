@@ -34,7 +34,7 @@ public class TaskService {
     }
 
     public TaskDto saveTask(TaskDto taskDto) {
-        Task taskToSave = new Task(taskDto.getTitle(), taskDto.getDescription(), Color.valueOf(taskDto.getColor().toUpperCase()), taskDto.getUserId());
+        Task taskToSave = new Task(taskDto.title(), taskDto.description(), Color.valueOf(taskDto.color().toUpperCase()), taskDto.userId());
         taskToSave.setStatus(TaskStatus.BACKLOG);
         Task task = taskRepository.save(taskToSave);
         return new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName());
@@ -71,8 +71,8 @@ public class TaskService {
     }
 
 
-    public Optional<TaskDto> updateTask(TaskDto taskDtoToUpdate, Long id) {
-        Task taskToUpdate = new Task(id, taskDtoToUpdate.getTitle(), taskDtoToUpdate.getDescription(), Color.valueOf(taskDtoToUpdate.getColor().toUpperCase()), taskDtoToUpdate.getUserId());
+    public Optional<TaskDto> updateTask(TaskDto taskDto, Long id) {
+        Task taskToUpdate = new Task(id, taskDto.title(), taskDto.description(), Color.valueOf(taskDto.color().toUpperCase()), taskDto.userId());
         return taskRepository.findById(id)
                 .map(t -> taskRepository.save(taskToUpdate))
                 .map(task -> new TaskDto(task.getId(), task.getTitle(), task.getDescription(), task.getColorAsName(), task.getUserId(), task.getStatusAsName()));

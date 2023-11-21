@@ -25,9 +25,11 @@ public class User {
     private String surname;
     @Column(name = "mail")
     private String mail;
+
     @CreatedDate
-    @Column(name = "CreatedAt", updatable = false)
+    @Column(name = "CreatedAt",updatable=false)
     private Instant createdAt;
+
     @Column(name = "LastUpdatedAt")
     @LastModifiedDate
     private Instant lastUpdatedAt;
